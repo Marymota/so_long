@@ -13,8 +13,7 @@ Started by following the tutorial "Getting started with the minilibx" by Aurelie
     ##### Closing a window
     
   ------------------------------------------------  https://aurelienbrabant.fr/blog/events-with-the-minilibx
-    #### Hooks & events 
-    ##### (quick understanding... need to revisit)
+    #### Hooks & events (quick understanding... need to revisit)
     
   ------------------------------------------------  https://aurelienbrabant.fr/blog/pixel-drawing-with-the-minilibx
     #### Draw in the window
