@@ -10,10 +10,10 @@ typedef struct	s_game
 {
 	void 	*mlx;
 	void 	*mlx_win;
-	char	**map;
-	int		map_width;
-	int		map_height;
-	char	*mapstr;
+	char	**board;
+	int		board_width;
+	int		board_height;
+	char	*board_str;
 	void	*img;
 	int 	img_width;
 	int		img_height;
