@@ -15,6 +15,16 @@ typedef struct	s_game
 	int		board_height;
 	char	*board_str;
 	void	*img;
+	void	*wall;
+	void	*character;
+	void	*collectible;
+	void	*path;
+	void	*exit;
+	char 	*relative_path_wall;
+	char 	*relative_path_character;
+	char 	*relative_path_collectible;
+	char 	*relative_path_path;
+	char 	*relative_path_exit;
 	int 	img_width;
 	int		img_height;
 	char	*addr;

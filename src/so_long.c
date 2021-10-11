@@ -9,39 +9,67 @@
 */
 #include "so_long.h"
 
+void init_img(t_game *game)
+{
+	game->relative_path_wall = "./newassets/wall.xpm";
+	game->wall = mlx_xpm_file_to_image(game->mlx, game->relative_path_wall, &game->img_width, &game->img_height);
+	game->relative_path_path = "./assets/path.xpm";
+	game->img = mlx_xpm_file_to_image(game->mlx, game->relative_path_path, &game->img_width, &game->img_height);
+	game->relative_path_character = "./newassets/character_small_1.xpm";
+	game->character = mlx_xpm_file_to_image(game->mlx, game->relative_path_character, &game->img_width, &game->img_height);
+	game->relative_path_collectible = "./newassets/seedsr.xpm";
+	game->collectible = mlx_xpm_file_to_image(game->mlx, game->relative_path_collectible, &game->img_width, &game->img_height);
+	game->relative_path_exit ="./assets/Exit.xpm";
+	game->exit = mlx_xpm_file_to_image(game->mlx, game->relative_path_exit, &game->img_width, &game->img_height);
+
+}
+
 void draw_board(t_game *game)
 {
 	int i = 0;
 	int x = 0;
 	int y = 0;
 
-	printf("\n%i, %i\n", game->img_height, game->img_width);
 	while(y < game->board_height)
 	{
 		while (x < game->board_width)
 		{
 			if (game->board_str[i] == '1')
 			{
-				game->relative_path = "./assets/path.xpm";
-				game->img = mlx_xpm_file_to_image(game->mlx, game->relative_path, &game->img_width, &game->img_height);
-				mlx_put_image_to_window(game->mlx, game->mlx_win, game->img, x * 100, y * 100);
+				mlx_put_image_to_window(game->mlx, game->mlx_win, game->wall, x * 100, y * 100);
 			}
 			else if (game->board_str[i] == 'E')
 			{
-				game->relative_path = "./assets/Exit.xpm";
-				game->img = mlx_xpm_file_to_image(game->mlx, game->relative_path, &game->img_width, &game->img_height);
-				mlx_put_image_to_window(game->mlx, game->mlx_win, game->img, x * 100, y * 100);
+				mlx_put_image_to_window(game->mlx, game->mlx_win, game->exit, x * 100, y * 100);
 			}
 			else if (game->board_str[i] == 'P')
 			{
-				game->relative_path = "./assets/character.xpm";
-				game->img = mlx_xpm_file_to_image(game->mlx, game->relative_path, &game->img_width, &game->img_height);
-				mlx_put_image_to_window(game->mlx, game->mlx_win, game->img, x * 100, y * 100);
+				mlx_put_image_to_window(game->mlx, game->mlx_win, game->character, x * 100, y * 100);
 			}
 			else if (game->board_str[i] == 'C')
 			{
-				game->relative_path = "./assets/collectibles.xpm";
-				game->img = mlx_xpm_file_to_image(game->mlx, game->relative_path, &game->img_width, &game->img_height);
+				mlx_put_image_to_window(game->mlx, game->mlx_win, game->collectible, x * 100, y * 100);
+			}
+			++i;
+			++x;
+		}
+		++y;
+		x = 0;
+	}
+}
+
+void draw_path(t_game *game)
+{
+	int i = 0;
+	int x = 0;
+	int y = 0;
+
+	while(y < game->board_height)
+	{
+		while (x < game->board_width)
+		{
+			if (game->board_str[i])
+			{
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->img, x * 100, y * 100);
 			}
 			++i;
@@ -87,11 +115,9 @@ int main (int argc, char *argv[])
 	read_board(&game, argv[1]);
 	game.mlx = mlx_init();
 	game.mlx_win = mlx_new_window(game.mlx, game.board_width * 100, game.board_height * 100, "soLong");
-	draw_board(&game);
-
-	game.img = mlx_new_image(game.mlx, game.board_width, game.board_height);
-	game.addr = mlx_get_data_addr(game.img, &game.bits_per_pixel, &game.line_length, &game.endian);
-	//add_images(&game);
+	init_img(&game);
+	draw_path(&game);
+	//draw_board(&game);
 	mlx_loop(game.mlx);
 }
 
