@@ -2,8 +2,11 @@
 #define SO_LONG_H 
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <fcntl.h>
 #include <mlx.h>
+#include <X11/X.h>
+#include <X11/keysym.h>
 #include "../libs/libft/src/libft.h"
 
 typedef struct s_player
@@ -40,8 +43,6 @@ typedef struct	s_game
 
 	int 	img_width;
 	int		img_height;
-	int		i;
-	int		j;
 
 	char	*addr;
 	char 	*relative_path;

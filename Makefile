@@ -6,7 +6,7 @@ PATH_SRC			:=		src
 PATH_BUILD			:=		build
 PATH_LIBS			:=		libs
 PATH_LIBFT			:=		$(PATH_LIBS)/libft
-PATH_LIBMLX_MAC		:=		$(PATH_LIBS)/minilibx-mac-osx
+PATH_LIBMLX_MAC		:=		$(PATH_LIBS)/minilibx_opengl_20191021
 PATH_LIBMLX_LINUX	:=		$(PATH_LIBS)/minilibx-linux
 
 # Sources 
@@ -23,7 +23,7 @@ INC_DIRS			:=		$(shell find $(PATH_SRC) -type d)
 CC					:=		gcc
 
 # Flags - compilation
-FLAG_WARNING		:=		-Wall -Wextra #-Werror
+FLAG_WARNING		:=		-Wall -Wextra -Werror
 FLAG_INC			:=		$(addprefix -I, $(INC_DIRS))
 FLAG_MAKEFILE		:=		-MMD -MP
 FLAG_DEBUG			:=		-g
@@ -34,15 +34,15 @@ FLAG_MEM_LEAK		:=		fsanitize=address
 
 # Flags - linking
 FLAG_LIBFT			:=		-L$(PATH_LIBFT) -lft
-FLAG_LIBMLX_MAC		:=		-L$(PATH_LIBMLX_MAC) -lmlx -framework OpenGL -framework Appkit -lz
+FLAG_LIBMLX_MAC		:=		-L$(PATH_LIBMLX_MAC)  -Lmlx -lmlx -framework OpenGL -framework AppKit
 FLAG_LIBMLX_LINUX	:=		-L$(PATH_LIBMLX_LINUX) -lmlx -lX11 -lbsd -lXext
-FLAGS_LINKING	:=	-lm $(FLAG_LIBFT) $(FLAG_LIBMLX_LINUX)
-#ifeq ($(OS),)
-#		FLAGS_LINKING	:=	-lm $(FLAG_LIBFT) $(FLAG_LIBMLX_MAC)
-#else
-#		FLAGS_LINKING	:=	-lm $(FLAG_LIBFT) $(FLAG_LIBMLX_LINUX)
-#		OS_DEFINE		:=		-D OS=$(OS)
-#endif
+FLAGS_LINKING		:=		-lm $(FLAG_LIBFT) $(FLAG_LIBMLX_LINUX)
+ifeq ($(OS),)
+		FLAGS_LINKING	:=	-lm $(FLAG_LIBFT) $(FLAG_LIBMLX_MAC)
+else
+		FLAGS_LINKING	:=	-lm $(FLAG_LIBFT) $(FLAG_LIBMLX_LINUX)
+		OS_DEFINE		:=		-D OS=$(OS)
+endif
 
 # Other Commands
 RM				:=			rm -rf
@@ -61,12 +61,12 @@ all:						init $(NAME)
 init:						
 							@ echo "$(_INFO) Initialize $(NAME)"
 							@ make -C $(PATH_LIBFT)
-							@ make -C $(PATH_LIBMLX_LINUX)
-##ifeq ($(OS),)
-##	@ make -C $(PATH_LIBMLX_MAC)
-##else
-##	@ make -C $(PATH_LIBMLX_LINUX)
-##endif
+
+ifeq ($(OS),)
+	@ make -C $(PATH_LIBMLX_MAC)
+else
+	@ make -C $(PATH_LIBMLX_LINUX)
+endif
 
 $(NAME):					$(OBJS)
 							$(CC) $(FLAGS_COMP) -o $@ $(OBJS) $(FLAGS_LINKING)
