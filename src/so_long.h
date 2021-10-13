@@ -4,16 +4,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include <mlx.h>
+#include "../libs/minilibx-linux/mlx.h"
+#include "../libs/minilibx_opengl_20191021/mlx.h"
 #include <X11/X.h>
 #include <X11/keysym.h>
 #include "../libs/libft/src/libft.h"
 
-typedef struct s_player
+typedef struct	s_player
 {
-	int	horizontal;
-	int	vertical;
-}	t_player;
+	int	x;
+	int	y;
+}				t_player;
 
 typedef struct	s_game 
 {

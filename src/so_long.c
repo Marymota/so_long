@@ -1,4 +1,10 @@
 /*
+RESOURCES:
+	aurelienbrabant.fr/blog/getting-started-with-the-minilibx
+	harm-smits.github.io/42docs/libs/minilibx
+	github.com/AmberLawr/so_long
+	xahlee.info/linux/linux_show_keycode_keysym.html
+
 	* Include the <mlx.h> header
 	* mlx_init(): Establishes a connection to the correct graphical system and returns a 'void *'
 		which holds the location of our current MLX instance. 
@@ -9,18 +15,90 @@
 	**** Add background tiles to the board
 	**** Add sprites to the board
 	***** move player sprite
+
+
+	! I am iterating through the board using a string... and probrably should use a 2D array
+	but I am not being able to convert it without segmentation fault...
+		draw_board and read map needs to be re-writen for this...
+		and then being able to "move" the player sprite
+		
 */
 #include "so_long.h"
 
+
+
+void convert_to_player(int y, int x, t_game *game)
+{
+	mlx_put_image_to_window(game->mlx, game->mlx_win, game->character, x * 100, y * 100);
+}
+
+void convert_to_path(int y, int x, t_game *game)
+{
+	mlx_put_image_to_window(game->mlx, game->mlx_win, game->path, x * 100, y * 100);
+}
+
+
+void update_curr(int y, int x, t_game *game)
+{
+	int y_next;
+	int x_next;
+
+	y_next = game->player.y;
+	x_next = game->player.x;
+	convert_to_path(y, x, game);
+	convert_to_player(x_next, y_next, game);
+} 
+
+void update_map(int y, int x, t_game *game)
+{
+	int y_next;
+	int x_next;
+
+	y_next = game->player.y;
+	x_next = game->player.x;
+	if (game->board[y][x] == 'E')
+	{
+		game->board[y][x] = 'E';
+		game->board[y_next][x_next] = 'P';
+	}
+	else
+	{
+		game->board[y][x] = '0';
+		game->board[y_next][x_next] = 'P';
+	}
+}
+
+//void down(t_game *game)
+//{
+//	int y;
+//	int x;
+//
+//	y = game->player.y;
+//	x = game->player.x;
+//	
+//	//if (game->board[y + 1][x] == '0')
+//	//{
+//		
+//	////	++game->player.y;
+//	//////	update_map(y, x, game);
+//	//////	update_curr(y, x, game);
+//	//}
+//}
+
+int handle_no_event(void *game)
+{
+	(void) game;
+	return (0);
+}
+
+// Print the key that was selected
 int handle_keypress(int keysym, t_game *game)
 {
 	if (keysym == XK_Escape)
 		mlx_destroy_window(game->mlx, game->mlx_win);
-}
-
-int handle_no_event(void *game)
-{
-	(void)game;
+	if (keysym == 115)
+		printf("\n%c\n", game->board[0][0]);
+	printf("Keypress: %d\n", keysym);
 	return (0);
 }
 
@@ -40,7 +118,11 @@ void draw_board(t_game *game)
 			else if (game->board_str[i] == 'E')
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->exit, x * 100, y * 100);
 			else if (game->board_str[i] == 'P')
+			{
+				game->player.x = x;
+				game->player.y = y;
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->character, x * 100, y * 100);
+			}
 			else if (game->board_str[i] == 'C')
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->collectible, x * 100, y * 100);
 			++i;
@@ -54,7 +136,6 @@ void draw_board(t_game *game)
 //**** Add background tiles to the board
 void draw_path(t_game *game)
 {
-	int i = 0;
 	int x = 0;
 	int y = 0;
 
@@ -63,7 +144,6 @@ void draw_path(t_game *game)
 		while (x < game->board_width)
 		{
 			mlx_put_image_to_window(game->mlx, game->mlx_win, game->path, x * 100, y * 100);
-			++i;
 			++x;
 		}
 		++y;
@@ -119,9 +199,9 @@ int main (int argc, char *argv[])
 		return (0);
 	ft_memset(&game, 0, sizeof(t_game));
 	read_board(&game, argv[1]);
-	game.mlx = mlx_init();
-	game.mlx_win = mlx_new_window(game.mlx, (game.board_width * 100), (game.board_height * 100), "soLong");
-	if (game.mlx_win == NULL)
+	if (!(game.mlx = mlx_init()))
+		return (-1);
+	if (!(game.mlx_win = mlx_new_window(game.mlx, (game.board_width * 100), (game.board_height * 100), "soLong")))
 	{
 		free(game.mlx_win);
 		exit(EXIT_FAILURE);
@@ -130,15 +210,12 @@ int main (int argc, char *argv[])
 	draw_path(&game);
 	draw_board(&game);
 
+	/* Setup hooks */
 	mlx_loop_hook(game.mlx, &handle_no_event, &game);
 	mlx_hook(game.mlx_win, KeyPress, KeyPressMask, &handle_keypress, &game);
 
-
 	mlx_loop(game.mlx);
-
-	
-
-	mlx_destroy_window(game.mlx, game.mlx_win);
+	mlx_destroy_display(game.mlx);
 	free(game.mlx);
 	return (0);
 }
