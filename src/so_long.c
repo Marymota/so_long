@@ -56,34 +56,33 @@ void update_map(int y, int x, t_game *game)
 
 	y_next = game->player.y;
 	x_next = game->player.x;
-	if (game->board[y][x] == 'E')
+	if (game->board[x][y] == 'E')
 	{
-		game->board[y][x] = 'E';
+		game->board[x][y] = 'E';
 		game->board[y_next][x_next] = 'P';
 	}
 	else
 	{
-		game->board[y][x] = '0';
-		game->board[y_next][x_next] = 'P';
+		game->board[x][y] = '0';
+		game->board[x_next][y_next] = 'P';
 	}
 }
 
-//void down(t_game *game)
-//{
-//	int y;
-//	int x;
-//
-//	y = game->player.y;
-//	x = game->player.x;
-//	
-//	//if (game->board[y + 1][x] == '0')
-//	//{
-//		
-//	////	++game->player.y;
-//	//////	update_map(y, x, game);
-//	//////	update_curr(y, x, game);
-//	//}
-//}
+void down(t_game *game)
+{
+	int y;
+	int x;
+
+	y = game->player.y;
+	x = game->player.x;
+	
+	if (game->board[y + 1][x] == '0')
+	{	
+		++game->player.y;
+		update_map(y, x, game);
+		update_curr(y, x, game);
+	}
+}
 
 int handle_no_event(void *game)
 {
@@ -105,36 +104,36 @@ int handle_keypress(int keysym, t_game *game)
 //**** Add sprites to the board
 void draw_board(t_game *game)
 {
-	int i = 0;
 	int x = 0;
 	int y = 0;
-
+	printf("**** draw board *****\n******************\n");
 	while(y < game->board_height)
 	{
+		x = 0;
 		while (x < game->board_width)
 		{
-			if (game->board_str[i] == '1')
+			printf("%c", game->board[y][x]);
+			if (game->board[y][x] == '1')
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->wall, x * 100, y * 100);
-			else if (game->board_str[i] == 'E')
+			if (game->board[y][x] == 'E')
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->exit, x * 100, y * 100);
-			else if (game->board_str[i] == 'P')
+			if (game->board[y][x] == 'P')
 			{
 				game->player.x = x;
 				game->player.y = y;
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->character, x * 100, y * 100);
 			}
-			else if (game->board_str[i] == 'C')
+			if (game->board[y][x] == 'C')
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->collectible, x * 100, y * 100);
-			++i;
 			++x;
 		}
+		printf("%c", '\n');
 		++y;
-		x = 0;
 	}
 }
 
 //**** Add background tiles to the board
-void draw_path(t_game *game)
+void draw_background(t_game *game)
 {
 	int x = 0;
 	int y = 0;
@@ -166,8 +165,7 @@ void init_img(t_game *game)
 	game->exit = mlx_xpm_file_to_image(game->mlx, game->relative_path_exit, &game->img_width, &game->img_height);
 }
 
-//** Read the map .ber file and convert it to a string to easy iteration
-void read_board(t_game *game, char *board)
+void count_board_units(t_game *game, char *board)
 {
 	int	fd;
 	char *line;
@@ -184,9 +182,47 @@ void read_board(t_game *game, char *board)
 		flag = 0;
 		++game->board_height;
 	}
-	game->board_str = ft_strjoin(game->board_str, line);
 	++game->board_height;
 	game->board_width = ft_strlen(line);
+	free(line);
+	close(fd);
+}
+
+//** Read the map .ber file and convert it to a string to easy iteration
+void read_board(t_game *game, char *board)
+{
+	int	fd;
+	char *line;
+	int ret;
+	int y;
+	int x;
+
+	y = 0;
+	count_board_units(game, board);
+	ret = 1;
+	fd = open(board, O_RDONLY);
+	game->board = ft_calloc(game->board_height, sizeof(char *));
+	while (ret > 0)
+	{
+		ret = get_next_line(fd, &line);
+		if (ft_strlen(line) > 0)
+			game->board[y] = line;
+		++y;
+	}
+	printf("**** read board *****\n******************\n");
+	y = 0;
+	while (y < game->board_height)
+	{
+		x = 0;
+		while (x < game->board_width)
+		{
+			printf("%c", game->board[y][x]);
+			x++;
+		}
+		y++;
+		printf("%c", '\n');
+	}
+	printf("%c", '\n');
 	free(line);
 	close(fd);
 }
@@ -207,7 +243,7 @@ int main (int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 	init_img(&game);
-	draw_path(&game);
+	draw_background(&game);
 	draw_board(&game);
 
 	/* Setup hooks */
