@@ -25,7 +25,24 @@ RESOURCES:
 */
 #include "so_long.h"
 
-
+void printf_board(t_game *game)
+{
+	int x;
+	printf("**** read board *****\n******************\n");
+	int y = 0;
+	while (y < game->board_height)
+	{
+		x = 0;
+		while (x < game->board_width)
+		{
+			printf("%c", game->board[y][x]);
+			x++;
+		}
+		y++;
+		printf("%c", '\n');
+	}
+	printf("%c", '\n');
+}
 
 void convert_to_player(int y, int x, t_game *game)
 {
@@ -106,28 +123,20 @@ void draw_board(t_game *game)
 {
 	int x = 0;
 	int y = 0;
-	printf("**** draw board *****\n******************\n");
 	while(y < game->board_height)
 	{
 		x = 0;
 		while (x < game->board_width)
 		{
-			printf("%c", game->board[y][x]);
-			if (game->board[y][x] == '1')
-				mlx_put_image_to_window(game->mlx, game->mlx_win, game->wall, x * 100, y * 100);
+			//printf("%c", game->board[y][x]);
 			if (game->board[y][x] == 'E')
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->exit, x * 100, y * 100);
 			if (game->board[y][x] == 'P')
-			{
-				game->player.x = x;
-				game->player.y = y;
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->character, x * 100, y * 100);
-			}
 			if (game->board[y][x] == 'C')
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->collectible, x * 100, y * 100);
 			++x;
 		}
-		printf("%c", '\n');
 		++y;
 	}
 }
@@ -137,12 +146,15 @@ void draw_background(t_game *game)
 {
 	int x = 0;
 	int y = 0;
-
+	
 	while(y < game->board_height)
 	{
 		while (x < game->board_width)
 		{
-			mlx_put_image_to_window(game->mlx, game->mlx_win, game->path, x * 100, y * 100);
+			if (game->board[y][x] == '1')
+				mlx_put_image_to_window(game->mlx, game->mlx_win, game->wall, x * 100, y * 100);
+			if (game->board[y][x] == '0')
+				mlx_put_image_to_window(game->mlx, game->mlx_win, game->path, x * 100, y * 100);
 			++x;
 		}
 		++y;
@@ -171,7 +183,6 @@ void count_board_units(t_game *game, char *board)
 	char *line;
 	int flag;
 
-	flag = 1;
 	fd = open(board, O_RDONLY);
 	while (get_next_line(fd, &line))
 	{
@@ -195,35 +206,21 @@ void read_board(t_game *game, char *board)
 	char *line;
 	int ret;
 	int y;
-	int x;
 
 	y = 0;
 	count_board_units(game, board);
 	ret = 1;
 	fd = open(board, O_RDONLY);
 	game->board = ft_calloc(game->board_height, sizeof(char *));
+	
 	while (ret > 0)
 	{
 		ret = get_next_line(fd, &line);
 		if (ft_strlen(line) > 0)
-			game->board[y] = line;
-		++y;
+			game->board[y++] = line;
+		else
+			free(line);
 	}
-	printf("**** read board *****\n******************\n");
-	y = 0;
-	while (y < game->board_height)
-	{
-		x = 0;
-		while (x < game->board_width)
-		{
-			printf("%c", game->board[y][x]);
-			x++;
-		}
-		y++;
-		printf("%c", '\n');
-	}
-	printf("%c", '\n');
-	free(line);
 	close(fd);
 }
 
@@ -234,9 +231,11 @@ int main (int argc, char *argv[])
 	if (argc != 2)
 		return (0);
 	ft_memset(&game, 0, sizeof(t_game));
+	
 	read_board(&game, argv[1]);
 	if (!(game.mlx = mlx_init()))
 		return (-1);
+	
 	if (!(game.mlx_win = mlx_new_window(game.mlx, (game.board_width * 100), (game.board_height * 100), "soLong")))
 	{
 		free(game.mlx_win);
@@ -245,7 +244,6 @@ int main (int argc, char *argv[])
 	init_img(&game);
 	draw_background(&game);
 	draw_board(&game);
-
 	/* Setup hooks */
 	mlx_loop_hook(game.mlx, &handle_no_event, &game);
 	mlx_hook(game.mlx_win, KeyPress, KeyPressMask, &handle_keypress, &game);
