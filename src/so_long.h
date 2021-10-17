@@ -30,6 +30,8 @@ typedef struct	s_game
 
 	void	*img;
 
+	int		collect_n;
+
 	void	*wall;
 	void	*character;
 	void	*collectible;

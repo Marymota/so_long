@@ -24,6 +24,7 @@ RESOURCES:
 		
 
 	! Player coordinates are inverted and that causes problems when changing tiles during movements...
+		The problem was that I was sending the coordinates inverted in the convert_to_player()
 */
 #include "so_long.h"
 
@@ -58,6 +59,11 @@ void convert_to_path(int past_tile_x, int past_tile_y, t_game *game)
 
 void update_map(int past_tile_y, int past_tile_x, t_game *game)
 {
+	if (game->board[game->player.y][game->player.x] == 'C')
+	{
+		++game->collect_n;
+		printf("collected: %i\n", (int)game->collect_n);
+	}
 	game->board[game->player.y][game->player.x] = 'P';
 	game->board[past_tile_y][past_tile_x] = '0';
 }
@@ -70,7 +76,6 @@ void down(t_game *game)
 	printf("down\n");
 	x = game->player.x;
 	y = game->player.y;
-
 	if ((game->board[y + 1][x]) != '1')
 	{
 		++game->player.y;
@@ -124,7 +129,6 @@ void left(t_game *game)
 	printf("left\n");
 	x = game->player.x;
 	y = game->player.y;
-	
 	if ((game->board[y][x - 1]) != '1')
 	{
 		--game->player.x;
@@ -188,7 +192,10 @@ void draw_board(t_game *game)
 				game->player.y = y;
 			}
 			if (game->board[y][x] == 'C')
+			{
+				game->collect_n = 0;
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->collectible, x * 100, y * 100);
+			}
 			++x;
 		}
 		++y;
