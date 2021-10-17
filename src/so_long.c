@@ -67,17 +67,16 @@ void down(t_game *game)
 	int x;
 	int y;
 	
-
 	printf("down\n");
 	x = game->player.x;
 	y = game->player.y;
-	
-	if ((game->board[y + 1][x]) == '0')
+
+	if ((game->board[y + 1][x]) != '1')
 	{
-		++game->player.x;
-		convert_to_path(y, x, game);
-		update_map(game->player.x, game->player.y, game);
-		convert_to_player(game->player.y, game->player.x, game);
+		++game->player.y;
+		convert_to_path(x, y, game);
+		update_map(y, x, game);
+		convert_to_player(game->player.x, game->player.y, game);
 	}
 }
 
@@ -86,45 +85,52 @@ void right(t_game *game)
 	int x;
 	int y;
 	
+	printf("right\n");
 	x = game->player.x;
 	y = game->player.y;
 	
-	if ((game->board[y][x + 1]) == '0' || (game->board[y][x + 1]) == 'C')
+	if ((game->board[y][x + 1]) != '1')
 	{
-		++game->player.y;
-		convert_to_path(y, x, game);
-		update_map(game->player.x, game->player.y, game);
-		convert_to_player(game->player.y, game->player.x, game);
+		++game->player.x;
+		convert_to_path(x, y, game);
+		update_map(y, x, game);
+		convert_to_player(game->player.x, game->player.y, game);
 	}
 }
 
 void up(t_game *game)
 {
-	int y;
 	int x;
-
-	y = game->player.y;
-	x = game->player.x;
+	int y;
 	
-	if (game->board[y + 1][x] == '0')
-	{	
-		++game->player.y;
+	printf("up\n");
+	x = game->player.x;
+	y = game->player.y;
+
+	if ((game->board[y - 1][x]) != '1')
+	{
+		--game->player.y;
+		convert_to_path(x, y, game);
 		update_map(y, x, game);
+		convert_to_player(game->player.x, game->player.y, game);
 	}
 }
 
 void left(t_game *game)
 {
-	int y;
 	int x;
-
-	y = game->player.y;
-	x = game->player.x;
+	int y;
 	
-	if (game->board[y + 1][x] == '0')
-	{	
-		++game->player.y;
+	printf("left\n");
+	x = game->player.x;
+	y = game->player.y;
+	
+	if ((game->board[y][x - 1]) != '1')
+	{
+		--game->player.x;
+		convert_to_path(x, y, game);
 		update_map(y, x, game);
+		convert_to_player(game->player.x, game->player.y, game);
 	}
 }
 
@@ -144,12 +150,21 @@ int handle_keypress(int keysym, t_game *game)
 		printf("Keypress: %d\n", keysym);
 		down(game);	
 	}
-	if (keysym == 119)
-		right(game);
-	if (keysym == 97)
-		printf("Keypress: %d\n", keysym);
 	if (keysym == 100)
+	{
 		printf("Keypress: %d\n", keysym);
+		right(game);
+	}
+	if (keysym == 119)
+	{
+		printf("Keypress: %d\n", keysym);
+		up(game);
+	}
+	if (keysym == 97)
+	{
+		printf("Keypress: %d\n", keysym);
+		left(game);
+	}
 	return (0);
 }
 
@@ -169,10 +184,9 @@ void draw_board(t_game *game)
 			if (game->board[y][x] == 'P')
 			{
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->character, x * 100, y * 100);
-				game->player.y = y;
 				game->player.x = x;
+				game->player.y = y;
 			}
-				
 			if (game->board[y][x] == 'C')
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->collectible, x * 100, y * 100);
 			++x;
