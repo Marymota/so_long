@@ -22,6 +22,8 @@ RESOURCES:
 		draw_board and read map needs to be re-writen for this...
 		and then being able to "move" the player sprite
 		
+
+	! Player coordinates are inverted and that causes problems when changing tiles during movements...
 */
 #include "so_long.h"
 
@@ -44,48 +46,59 @@ void printf_board(t_game *game)
 	printf("%c", '\n');
 }
 
-void convert_to_player(int y, int x, t_game *game)
+void convert_to_player(int new_tile_x, int new_tile_y, t_game *game)
 {
-	mlx_put_image_to_window(game->mlx, game->mlx_win, game->character, x * 100, y * 100);
+	mlx_put_image_to_window(game->mlx, game->mlx_win, game->character, new_tile_x * 100, new_tile_y * 100);
 }
 
-void convert_to_path(int y, int x, t_game *game)
+void convert_to_path(int past_tile_x, int past_tile_y, t_game *game)
 {
-	mlx_put_image_to_window(game->mlx, game->mlx_win, game->path, x * 100, y * 100);
+	mlx_put_image_to_window(game->mlx, game->mlx_win, game->path, past_tile_x * 100, past_tile_y * 100);
 }
 
-
-void update_curr(int y, int x, t_game *game)
+void update_map(int past_tile_y, int past_tile_x, t_game *game)
 {
-	int y_next;
-	int x_next;
-
-	y_next = game->player.y;
-	x_next = game->player.x;
-	convert_to_path(y, x, game);
-	convert_to_player(x_next, y_next, game);
-} 
-
-void update_map(int y, int x, t_game *game)
-{
-	int y_next;
-	int x_next;
-
-	y_next = game->player.y;
-	x_next = game->player.x;
-	if (game->board[x][y] == 'E')
-	{
-		game->board[x][y] = 'E';
-		game->board[y_next][x_next] = 'P';
-	}
-	else
-	{
-		game->board[x][y] = '0';
-		game->board[x_next][y_next] = 'P';
-	}
+	game->board[game->player.y][game->player.x] = 'P';
+	game->board[past_tile_y][past_tile_x] = '0';
 }
 
 void down(t_game *game)
+{
+	int x;
+	int y;
+	
+
+	printf("down\n");
+	x = game->player.x;
+	y = game->player.y;
+	
+	if ((game->board[y + 1][x]) == '0')
+	{
+		++game->player.x;
+		convert_to_path(y, x, game);
+		update_map(game->player.x, game->player.y, game);
+		convert_to_player(game->player.y, game->player.x, game);
+	}
+}
+
+void right(t_game *game)
+{
+	int x;
+	int y;
+	
+	x = game->player.x;
+	y = game->player.y;
+	
+	if ((game->board[y][x + 1]) == '0' || (game->board[y][x + 1]) == 'C')
+	{
+		++game->player.y;
+		convert_to_path(y, x, game);
+		update_map(game->player.x, game->player.y, game);
+		convert_to_player(game->player.y, game->player.x, game);
+	}
+}
+
+void up(t_game *game)
 {
 	int y;
 	int x;
@@ -97,7 +110,21 @@ void down(t_game *game)
 	{	
 		++game->player.y;
 		update_map(y, x, game);
-		update_curr(y, x, game);
+	}
+}
+
+void left(t_game *game)
+{
+	int y;
+	int x;
+
+	y = game->player.y;
+	x = game->player.x;
+	
+	if (game->board[y + 1][x] == '0')
+	{	
+		++game->player.y;
+		update_map(y, x, game);
 	}
 }
 
@@ -113,8 +140,16 @@ int handle_keypress(int keysym, t_game *game)
 	if (keysym == XK_Escape)
 		mlx_destroy_window(game->mlx, game->mlx_win);
 	if (keysym == 115)
-		printf("\n%c\n", game->board[0][0]);
-	printf("Keypress: %d\n", keysym);
+	{
+		printf("Keypress: %d\n", keysym);
+		down(game);	
+	}
+	if (keysym == 119)
+		right(game);
+	if (keysym == 97)
+		printf("Keypress: %d\n", keysym);
+	if (keysym == 100)
+		printf("Keypress: %d\n", keysym);
 	return (0);
 }
 
@@ -132,7 +167,12 @@ void draw_board(t_game *game)
 			if (game->board[y][x] == 'E')
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->exit, x * 100, y * 100);
 			if (game->board[y][x] == 'P')
+			{
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->character, x * 100, y * 100);
+				game->player.y = y;
+				game->player.x = x;
+			}
+				
 			if (game->board[y][x] == 'C')
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->collectible, x * 100, y * 100);
 			++x;
