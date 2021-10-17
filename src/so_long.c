@@ -61,8 +61,19 @@ void update_map(int past_tile_y, int past_tile_x, t_game *game)
 {
 	if (game->board[game->player.y][game->player.x] == 'C')
 	{
-		++game->collect_n;
-		printf("collected: %i\n", (int)game->collect_n);
+		++game->collected;
+		--game->collectibles;
+		printf("collected: %i collectible: %i\n", game->collected, game->collectibles);
+		if (game->collectibles == 0)
+			game->end = 1;
+	}
+	if (game->end)
+	{
+		if (game->board[game->player.y][game->player.x] == 'E')
+		{
+			printf("Exit\n");
+			exit(EXIT_SUCCESS);
+		}
 	}
 	game->board[game->player.y][game->player.x] = 'P';
 	game->board[past_tile_y][past_tile_x] = '0';
@@ -177,6 +188,7 @@ void draw_board(t_game *game)
 {
 	int x = 0;
 	int y = 0;
+	game->collectibles = 0;
 	while(y < game->board_height)
 	{
 		x = 0;
@@ -193,8 +205,8 @@ void draw_board(t_game *game)
 			}
 			if (game->board[y][x] == 'C')
 			{
-				game->collect_n = 0;
-				mlx_put_image_to_window(game->mlx, game->mlx_win, game->collectible, x * 100, y * 100);
+				game->collectibles++;
+				mlx_put_image_to_window(game->mlx, game->mlx_win, game->collect, x * 100, y * 100);
 			}
 			++x;
 		}
@@ -233,7 +245,7 @@ void init_img(t_game *game)
 	game->relative_path_character = "./newassets/character_small_1.xpm";
 	game->character = mlx_xpm_file_to_image(game->mlx, game->relative_path_character, &game->img_width, &game->img_height);
 	game->relative_path_collectible = "./newassets/seedsr.xpm";
-	game->collectible = mlx_xpm_file_to_image(game->mlx, game->relative_path_collectible, &game->img_width, &game->img_height);
+	game->collect = mlx_xpm_file_to_image(game->mlx, game->relative_path_collectible, &game->img_width, &game->img_height);
 	game->relative_path_exit ="./assets/Exit.xpm";
 	game->exit = mlx_xpm_file_to_image(game->mlx, game->relative_path_exit, &game->img_width, &game->img_height);
 }

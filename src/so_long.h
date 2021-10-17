@@ -30,11 +30,13 @@ typedef struct	s_game
 
 	void	*img;
 
-	int		collect_n;
+	void	*collect;
+	int		collectibles;
+	int		collected;
+	int		end;
 
 	void	*wall;
 	void	*character;
-	void	*collectible;
 	void	*path;
 	void	*exit;
 
