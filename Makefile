@@ -35,8 +35,8 @@ FLAG_MEM_LEAK		:=		fsanitize=address
 # Flags - linking
 FLAG_LIBFT			:=		-L$(PATH_LIBFT) -lft
 FLAG_LIBMLX_MAC		:=		-L$(PATH_LIBMLX_MAC) -lmlx -framework OpenGL -framework AppKit -lz
-FLAG_LIBMLX_LINUX	:=		-L$(PATH_LIBMLX_LINUX) -lmlx -lX11 -lbsd -lXext
-ifeq ($(OS), "Darwin")
+#FLAG_LIBMLX_LINUX	:=		-L$(PATH_LIBMLX_LINUX) -lmlx -lX11 -lbsd -lXext
+ifeq ($(OS),)
 		FLAGS_LINKING	:=	-lm $(FLAG_LIBFT) $(FLAG_LIBMLX_MAC)
 else
 		FLAGS_LINKING	:=	-lm $(FLAG_LIBFT) $(FLAG_LIBMLX_LINUX)
@@ -60,7 +60,7 @@ all:						init $(NAME)
 init:						
 							@ echo "$(_INFO) Initialize $(NAME)"
 							@ make -C $(PATH_LIBFT)
-ifeq ($(OS), "Darwin")
+ifeq ($(OS),)
 	@ make -C $(PATH_LIBMLX_MAC)
 else
 	@ make -C $(PATH_LIBMLX_LINUX)

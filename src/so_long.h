@@ -6,8 +6,8 @@
 #include <fcntl.h>
 #include "../libs/minilibx-linux/mlx.h"
 #include "../libs/minilibx_opengl_20191021/mlx.h"
-#include <X11/X.h>
-#include <X11/keysym.h>
+//#include <X11/X.h>
+//#include <X11/keysym.h>
 #include "../libs/libft/src/libft.h"
 
 typedef struct	s_player

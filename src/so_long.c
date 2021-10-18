@@ -156,28 +156,31 @@ int handle_no_event(void *game)
 }
 
 // Print the key that was selected
-int handle_keypress(int keysym, t_game *game)
+int handle_keypress(int key_code, t_game *game)
 {
-	if (keysym == XK_Escape)
-		mlx_destroy_window(game->mlx, game->mlx_win);
-	if (keysym == 115)
+	if (key_code == 53)
 	{
-		printf("Keypress: %d\n", keysym);
+		mlx_destroy_window(game->mlx, game->mlx_win);
+		exit(EXIT_SUCCESS);
+	}
+	if (key_code == 1) //linux 115 mac 1
+	{
+		printf("Keypress: %d\n", key_code);
 		down(game);	
 	}
-	if (keysym == 100)
+	if (key_code == 2) //linux 100 mac 2
 	{
-		printf("Keypress: %d\n", keysym);
+		printf("Keypress: %d\n", key_code);
 		right(game);
 	}
-	if (keysym == 119)
+	if (key_code == 13) //linux 119 mac 13
 	{
-		printf("Keypress: %d\n", keysym);
+		printf("Keypress: %d\n", key_code);
 		up(game);
 	}
-	if (keysym == 97)
+	if (key_code == 0) //linux 97 mac 0
 	{
-		printf("Keypress: %d\n", keysym);
+		printf("Keypress: %d\n", key_code);
 		left(game);
 	}
 	return (0);
@@ -319,10 +322,10 @@ int main (int argc, char *argv[])
 	draw_board(&game);
 	/* Setup hooks */
 	mlx_loop_hook(game.mlx, &handle_no_event, &game);
-	mlx_hook(game.mlx_win, KeyPress, KeyPressMask, &handle_keypress, &game);
+	mlx_hook(game.mlx_win, 2, (1L<<0), &handle_keypress, &game);
 
 	mlx_loop(game.mlx);
-	mlx_destroy_display(game.mlx);
+	mlx_destroy_window(game.mlx, game.mlx_win);
 	free(game.mlx);
 	return (0);
 }
