@@ -28,6 +28,15 @@ RESOURCES:
 */
 #include "so_long.h"
 
+void game_exit(t_game *game)
+{
+	if (game->end)
+	{
+		printf("Exit\n");
+		exit(EXIT_SUCCESS);
+	}
+}
+
 void printf_board(t_game *game)
 {
 	int x;
@@ -67,14 +76,6 @@ void update_map(int past_tile_y, int past_tile_x, t_game *game)
 		if (game->collectibles == 0)
 			game->end = 1;
 	}
-	if (game->end)
-	{
-		if (game->board[game->player.y][game->player.x] == 'E')
-		{
-			printf("Exit\n");
-			exit(EXIT_SUCCESS);
-		}
-	}
 	game->board[game->player.y][game->player.x] = 'P';
 	game->board[past_tile_y][past_tile_x] = '0';
 }
@@ -87,13 +88,16 @@ void down(t_game *game)
 	printf("down\n");
 	x = game->player.x;
 	y = game->player.y;
-	if ((game->board[y + 1][x]) != '1')
+	if ((game->board[y + 1][x]) != '1' && ((game->board[y + 1][x]) != 'E'))
 	{
 		++game->player.y;
+		
 		convert_to_path(x, y, game);
 		update_map(y, x, game);
 		convert_to_player(game->player.x, game->player.y, game);
 	}
+	if (game->board[y + 1][x] == 'E')
+		game_exit(game);	
 }
 
 void right(t_game *game)
@@ -105,13 +109,15 @@ void right(t_game *game)
 	x = game->player.x;
 	y = game->player.y;
 	
-	if ((game->board[y][x + 1]) != '1')
+	if ((game->board[y][x + 1]) != '1' && ((game->board[y][x + 1]) != 'E'))
 	{
 		++game->player.x;
 		convert_to_path(x, y, game);
 		update_map(y, x, game);
 		convert_to_player(game->player.x, game->player.y, game);
 	}
+	if (game->board[y][x + 1] == 'E')
+		game_exit(game);	
 }
 
 void up(t_game *game)
@@ -123,13 +129,15 @@ void up(t_game *game)
 	x = game->player.x;
 	y = game->player.y;
 
-	if ((game->board[y - 1][x]) != '1')
+	if ((game->board[y - 1][x]) != '1' && ((game->board[y - 1][x]) != 'E'))
 	{
 		--game->player.y;
 		convert_to_path(x, y, game);
 		update_map(y, x, game);
 		convert_to_player(game->player.x, game->player.y, game);
 	}
+	if (game->board[y - 1][x] == 'E')
+		game_exit(game);	
 }
 
 void left(t_game *game)
@@ -140,13 +148,15 @@ void left(t_game *game)
 	printf("left\n");
 	x = game->player.x;
 	y = game->player.y;
-	if ((game->board[y][x - 1]) != '1')
+	if ((game->board[y][x - 1]) != '1' && ((game->board[y][x - 1]) != 'E'))
 	{
 		--game->player.x;
 		convert_to_path(x, y, game);
 		update_map(y, x, game);
 		convert_to_player(game->player.x, game->player.y, game);
 	}
+	if (game->board[y][x - 1] == 'E')
+		game_exit(game);	
 }
 
 int handle_no_event(void *game)
@@ -229,7 +239,7 @@ void draw_background(t_game *game)
 		{
 			if (game->board[y][x] == '1')
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->wall, x * 100, y * 100);
-			if (game->board[y][x] == '0')
+			else 
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->path, x * 100, y * 100);
 			++x;
 		}
