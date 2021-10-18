@@ -25,6 +25,13 @@ RESOURCES:
 
 	! Player coordinates are inverted and that causes problems when changing tiles during movements...
 		The problem was that I was sending the coordinates inverted in the convert_to_player()
+	
+	*** Add map error checking
+	*** Add different sprites for different moves
+	*** Add enemy
+	*** Add screen moves count
+	*** 
+
 */
 #include "so_long.h"
 
@@ -72,12 +79,13 @@ void update_map(int past_tile_y, int past_tile_x, t_game *game)
 	{
 		++game->collected;
 		--game->collectibles;
-		printf("collected: %i collectible: %i\n", game->collected, game->collectibles);
+		//printf("collected: %i collectible: %i\n", game->collected, game->collectibles);
 		if (game->collectibles == 0)
 			game->end = 1;
 	}
 	game->board[game->player.y][game->player.x] = 'P';
 	game->board[past_tile_y][past_tile_x] = '0';
+	printf("%d\n", game->moves);
 }
 
 void down(t_game *game)
@@ -85,13 +93,13 @@ void down(t_game *game)
 	int x;
 	int y;
 	
-	printf("down\n");
+	//printf("down\n");
 	x = game->player.x;
 	y = game->player.y;
 	if ((game->board[y + 1][x]) != '1' && ((game->board[y + 1][x]) != 'E'))
 	{
+		game->moves++;
 		++game->player.y;
-		
 		convert_to_path(x, y, game);
 		update_map(y, x, game);
 		convert_to_player(game->player.x, game->player.y, game);
@@ -105,12 +113,13 @@ void right(t_game *game)
 	int x;
 	int y;
 	
-	printf("right\n");
+	//printf("right\n");
 	x = game->player.x;
 	y = game->player.y;
 	
 	if ((game->board[y][x + 1]) != '1' && ((game->board[y][x + 1]) != 'E'))
 	{
+		game->moves++;
 		++game->player.x;
 		convert_to_path(x, y, game);
 		update_map(y, x, game);
@@ -125,12 +134,13 @@ void up(t_game *game)
 	int x;
 	int y;
 	
-	printf("up\n");
+	//printf("up\n");
 	x = game->player.x;
 	y = game->player.y;
 
 	if ((game->board[y - 1][x]) != '1' && ((game->board[y - 1][x]) != 'E'))
 	{
+		game->moves++;
 		--game->player.y;
 		convert_to_path(x, y, game);
 		update_map(y, x, game);
@@ -145,11 +155,12 @@ void left(t_game *game)
 	int x;
 	int y;
 	
-	printf("left\n");
+	//printf("left\n");
 	x = game->player.x;
 	y = game->player.y;
 	if ((game->board[y][x - 1]) != '1' && ((game->board[y][x - 1]) != 'E'))
 	{
+		game->moves++;
 		--game->player.x;
 		convert_to_path(x, y, game);
 		update_map(y, x, game);
@@ -175,22 +186,22 @@ int handle_keypress(int key_code, t_game *game)
 	}
 	if (key_code == 1) //linux 115 mac 1
 	{
-		printf("Keypress: %d\n", key_code);
+		//printf("Keypress: %d\n", key_code);
 		down(game);	
 	}
 	if (key_code == 2) //linux 100 mac 2
 	{
-		printf("Keypress: %d\n", key_code);
+		//printf("Keypress: %d\n", key_code);
 		right(game);
 	}
 	if (key_code == 13) //linux 119 mac 13
 	{
-		printf("Keypress: %d\n", key_code);
+		//printf("Keypress: %d\n", key_code);
 		up(game);
 	}
 	if (key_code == 0) //linux 97 mac 0
 	{
-		printf("Keypress: %d\n", key_code);
+		//printf("Keypress: %d\n", key_code);
 		left(game);
 	}
 	return (0);
@@ -202,6 +213,7 @@ void draw_board(t_game *game)
 	int x = 0;
 	int y = 0;
 	game->collectibles = 0;
+	game->moves = 0;
 	while(y < game->board_height)
 	{
 		x = 0;
@@ -267,16 +279,14 @@ void count_board_units(t_game *game, char *board)
 {
 	int	fd;
 	char *line;
-	int flag;
 
 	fd = open(board, O_RDONLY);
 	while (get_next_line(fd, &line))
 	{
-		if (!flag)
+		if (line && *line)
 			game->board_str = ft_strjoin(game->board_str, line);
 		else
-			game->board_str = line;
-		flag = 0;
+			ft_putstr_fd("Error\nBoard can't be read", 1);
 		++game->board_height;
 	}
 	++game->board_height;
@@ -333,9 +343,9 @@ int main (int argc, char *argv[])
 	/* Setup hooks */
 	mlx_loop_hook(game.mlx, &handle_no_event, &game);
 	mlx_hook(game.mlx_win, 2, (1L<<0), &handle_keypress, &game);
-
 	mlx_loop(game.mlx);
 	mlx_destroy_window(game.mlx, game.mlx_win);
+	//mlx_destroy_display(game.mlx);
 	free(game.mlx);
 	return (0);
 }

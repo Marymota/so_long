@@ -55,6 +55,8 @@ typedef struct	s_game
 	int		line_length;
 	int		endian;
 
+	int		moves;
+
 }	t_game;
 
 
