@@ -247,8 +247,14 @@ void draw_background(t_game *game)
 	
 	while(y < game->board_height)
 	{
+		x = 0;
 		while (x < game->board_width)
 		{
+			if ((y == 0 || x == 0) && (game->board[y][x] != '1'))
+			{
+				ft_putstr_fd("Error\nGameboard is invalid1", 2);
+				exit(EXIT_FAILURE);
+			}
 			if (game->board[y][x] == '1')
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->wall, x * 100, y * 100);
 			else 
@@ -256,8 +262,29 @@ void draw_background(t_game *game)
 			++x;
 		}
 		++y;
-		x = 0;
 	}
+	--y;
+	x = -1;
+	while (++x > -1 && x <= y)
+	{
+		if (game->board[y][x] != '1')
+		{
+			ft_putstr_fd("Error\nGameboard is invalid2", 2);
+			exit(EXIT_FAILURE);
+		}
+	}
+	printf("x: %i\n", x);
+	y = -1;
+	while (++y > -1 && y < x)
+	{
+		if (game->board[y][x] != '1')
+		{
+			printf("%c\n", game->board[y][x + 1]);
+			ft_putstr_fd("Error\nGameboard is invalid3", 2);
+			exit(EXIT_FAILURE);
+		}
+	}
+	printf("%i\n", x);
 }
 
 //*** Create path to XPM file and convert it to image before adding it to the display
@@ -279,18 +306,32 @@ void count_board_units(t_game *game, char *board)
 {
 	int	fd;
 	char *line;
+	size_t line_size;
 
+	line_size = 0;
 	fd = open(board, O_RDONLY);
 	while (get_next_line(fd, &line))
 	{
+		if (!line_size)
+			line_size = ft_strlen(line);
 		if (line && *line)
 			game->board_str = ft_strjoin(game->board_str, line);
 		else
 			ft_putstr_fd("Error\nBoard can't be read", 1);
 		++game->board_height;
+		if (line_size != ft_strlen(line))
+		{
+			ft_putstr_fd("Error\nMap is invalid", 2);
+			exit(EXIT_FAILURE);
+		}
 	}
 	++game->board_height;
 	game->board_width = ft_strlen(line);
+	if (line_size != ft_strlen(line))
+	{
+		ft_putstr_fd("Error\nMap is invalid", 2);
+		exit(EXIT_FAILURE);
+	}
 	free(line);
 	close(fd);
 }
