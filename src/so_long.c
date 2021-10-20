@@ -207,10 +207,48 @@ int handle_keypress(int key_code, t_game *game)
 	return (0);
 }
 
+void check_board(t_game *game)
+{
+	int x;
+	int y;
+
+	y = -1;
+	while(++y < game->board_height)
+	{
+		x = -1;
+		while (++x < game->board_width)
+		{
+			if ((y == 0 || x == 0) && (game->board[y][x] != '1'))
+			{
+				ft_putstr_fd("Error\nGameboard is invalid", STDERR_FILENO);
+				exit(EXIT_FAILURE);
+			}
+		}
+	}
+	y = -1;
+	while (++y < game->board_height - 1)
+	{
+		if (game->board[y][game->board_width - 1] != '1')
+		{
+			ft_putstr_fd("Error\nGameboard is invalid", STDERR_FILENO);
+			exit(EXIT_FAILURE);
+		}
+	}
+	x = -1;
+	while (++x < game->board_width - 1)
+	{
+		if (game->board[game->board_height - 1][x] != '1')
+		{
+			ft_putstr_fd("Error\nGameboard is invalid", STDERR_FILENO);
+			exit(EXIT_FAILURE);
+		}
+	}
+}
+
 //**** Add sprites to the board
 void draw_board(t_game *game)
 {
-	int x = 0;
+	int x;
 	int y = 0;
 	game->collectibles = 0;
 	game->moves = 0;
@@ -242,49 +280,26 @@ void draw_board(t_game *game)
 //**** Add background tiles to the board
 void draw_background(t_game *game)
 {
-	int x = 0;
-	int y = 0;
-	
-	while(y < game->board_height)
+	int x;
+	int y;
+
+	y = -1;
+	while(++y < game->board_height)
 	{
-		x = 0;
-		while (x < game->board_width)
+		x = -1;
+		while (++x < game->board_width)
 		{
 			if ((y == 0 || x == 0) && (game->board[y][x] != '1'))
 			{
-				ft_putstr_fd("Error\nGameboard is invalid1", 2);
+				ft_putstr_fd("Error\nGameboard is invalid", STDERR_FILENO);
 				exit(EXIT_FAILURE);
 			}
 			if (game->board[y][x] == '1')
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->wall, x * 100, y * 100);
 			else 
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->path, x * 100, y * 100);
-			++x;
-		}
-		++y;
-	}
-	--y;
-	x = -1;
-	while (++x > -1 && x <= y)
-	{
-		if (game->board[y][x] != '1')
-		{
-			ft_putstr_fd("Error\nGameboard is invalid2", 2);
-			exit(EXIT_FAILURE);
 		}
 	}
-	printf("x: %i\n", x);
-	y = -1;
-	while (++y > -1 && y < x)
-	{
-		if (game->board[y][x] != '1')
-		{
-			printf("%c\n", game->board[y][x + 1]);
-			ft_putstr_fd("Error\nGameboard is invalid3", 2);
-			exit(EXIT_FAILURE);
-		}
-	}
-	printf("%i\n", x);
 }
 
 //*** Create path to XPM file and convert it to image before adding it to the display
@@ -300,6 +315,17 @@ void init_img(t_game *game)
 	game->collect = mlx_xpm_file_to_image(game->mlx, game->relative_path_collectible, &game->img_width, &game->img_height);
 	game->relative_path_exit ="./assets/Exit.xpm";
 	game->exit = mlx_xpm_file_to_image(game->mlx, game->relative_path_exit, &game->img_width, &game->img_height);
+}
+
+void check_board_form(t_game *game, char *line, size_t len)
+{
+	++game->board_height;
+	game->board_width = ft_strlen(line);
+	if (len != ft_strlen(line))
+	{
+		ft_putstr_fd("Error\nMap is not rectangular", 2);
+		exit(EXIT_FAILURE);
+	}
 }
 
 void count_board_units(t_game *game, char *board)
@@ -318,20 +344,9 @@ void count_board_units(t_game *game, char *board)
 			game->board_str = ft_strjoin(game->board_str, line);
 		else
 			ft_putstr_fd("Error\nBoard can't be read", 1);
-		++game->board_height;
-		if (line_size != ft_strlen(line))
-		{
-			ft_putstr_fd("Error\nMap is invalid", 2);
-			exit(EXIT_FAILURE);
-		}
+		check_board_form(game, line, line_size);
 	}
-	++game->board_height;
-	game->board_width = ft_strlen(line);
-	if (line_size != ft_strlen(line))
-	{
-		ft_putstr_fd("Error\nMap is invalid", 2);
-		exit(EXIT_FAILURE);
-	}
+	check_board_form(game, line, line_size);
 	free(line);
 	close(fd);
 }
@@ -378,6 +393,7 @@ int main (int argc, char *argv[])
 		free(game.mlx_win);
 		exit(EXIT_FAILURE);
 	}
+	check_board(&game);
 	init_img(&game);
 	draw_background(&game);
 	draw_board(&game);
