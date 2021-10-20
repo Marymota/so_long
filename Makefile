@@ -5,6 +5,7 @@ NAME				:=		so_long
 PATH_SRC			:=		src
 PATH_BUILD			:=		build
 PATH_LIBS			:=		libs
+PATH_INC			:=		inc
 PATH_LIBFT			:=		$(PATH_LIBS)/libft
 PATH_LIBMLX_MAC		:=		$(PATH_LIBS)/minilibx_opengl_20191021
 PATH_LIBMLX_LINUX	:=		$(PATH_LIBS)/minilibx-linux
@@ -17,7 +18,7 @@ PATH_LIBMLX_LINUX	:=		$(PATH_LIBS)/minilibx-linux
 SRCS				:=		$(shell find $(PATH_SRC) -name *.c)
 OBJS				:=		$(SRCS:%.c=$(PATH_BUILD)/%.o)
 DEPS				:=		$(OBJS:.o=.d)
-INC_DIRS			:=		$(shell find $(PATH_SRC) -type d)
+INC_DIRS			:=		$(shell find $(PATH_INC) -type d)
 
 # Compiler
 CC					:=		gcc

@@ -59,5 +59,30 @@ typedef struct	s_game
 
 }	t_game;
 
+void	init_game (t_game *game);
+void	init_board (t_game *game);
+void	read_board(t_game *game, char *board);
+void	count_board_units(t_game *game, char *board);
+void	check_board_form(t_game *game, char *line, size_t len);
+
+int		handle_keypress(int key_code, t_game *game);
+void	up(t_game *game);
+void	down(t_game *game);
+void	left(t_game *game);
+void	right(t_game *game);
+
+void	convert_to_player(int new_tile_x, int new_tile_y, t_game *game);
+void	convert_to_path(int past_tile_x, int past_tile_y, t_game *game);
+void	update_map(int past_tile_y, int past_tile_x, t_game *game);
+void	update_game_state(t_game *game, int x, int y);
+
+void	init_img(t_game *game);
+int		valid_board(t_game *game);
+void	draw_board(t_game *game);
+void	draw_background(t_game *game);
+
+void	game_exit(t_game *game);
+void	printf_board(t_game *game);
+
 
 #endif
