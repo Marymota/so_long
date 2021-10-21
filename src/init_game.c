@@ -31,7 +31,11 @@ void	count_board_units(t_game *game, char *board)
 	size_t	line_size;
 
 	line_size = 0;
-	fd = open(board, O_RDONLY);
+	if (!(fd = open(board, O_RDONLY)))
+	{
+		ft_putstr_fd("Error\nBoard can't be read", 1);
+		exit(EXIT_FAILURE);
+	}
 	while (get_next_line(fd, &line))
 	{
 		if (!line_size)
@@ -72,7 +76,7 @@ void	read_board(t_game *game, char *board)
 
 void	init_board(t_game *game)
 {
-	if (!valid_board(game))
+	if (!board_close(game) || !board_elements(game))
 	{
 		ft_putstr_fd("Error\nGameboard is invalid", STDERR_FILENO);
 		free(game->mlx_win);

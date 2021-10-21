@@ -1,6 +1,36 @@
 #include "so_long.h"
 
-int	valid_board(t_game *game)
+int	board_elements(t_game *game)
+{
+	int	x;
+	int	y;
+	int	board[3];
+
+	x = -1;
+	while (++x < 3)
+		board[x] = 0;
+	y = -1;
+	while (++y < game->board_height)
+	{
+		x = -1;
+		while (++x < game->board_width)
+		{
+			if (game->board[y][x] == 'E')
+				board[0] = 1;
+			if (game->board[y][x] == 'P')
+				++board[1];
+			if (game->board[y][x] == 'C' && board[2] == 0)
+				board[2] = 1;
+		}
+	}
+	x = -1;
+	while (++x < 3)
+		if (board[x] != 1)
+			return (0);
+	return (1);
+}
+
+int	board_close(t_game *game)
 {
 	int	x;
 	int	y;
@@ -32,10 +62,10 @@ void	init_img(t_game *game)
 	game->relative_path_wall = "./assets/path.xpm";
 	game->wall = mlx_xpm_file_to_image(game->mlx, game->relative_path_wall, \
 &game->img_width, &game->img_height);
-	game->relative_path_character = "./newassets/character_small_1.xpm";
+	game->relative_path_character = "./assets/chicken/xpm/char1_right.xpm";
 	game->character = mlx_xpm_file_to_image(game->mlx, game->relative_path_character, \
 &game->img_width, &game->img_height);
-	game->relative_path_collectible = "./newassets/seedsr.xpm";
+	game->relative_path_collectible = "./assets/seeds/seed.xpm";
 	game->collect = mlx_xpm_file_to_image(game->mlx, game->relative_path_collectible, \
 &game->img_width, &game->img_height);
 	game->relative_path_exit = "./assets/Exit.xpm";
