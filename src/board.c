@@ -6,20 +6,19 @@ int	board_elements(t_game *game)
 	int	y;
 	int	board[3];
 
-	x = -1;
-	while (++x < 3)
-		board[x] = 0;
 	y = -1;
 	while (++y < game->board_height)
 	{
 		x = -1;
 		while (++x < game->board_width)
 		{
+			if (x < 3 && y == 0)
+				board[x] = 0;
 			if (game->board[y][x] == 'E')
 				board[0] = 1;
 			if (game->board[y][x] == 'P')
 				++board[1];
-			if (game->board[y][x] == 'C' && board[2] == 0)
+			if (game->board[y][x] == 'C')
 				board[2] = 1;
 		}
 	}

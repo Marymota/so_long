@@ -23,7 +23,7 @@ void	update_map(int past_tile_y, int past_tile_x, t_game *game)
 	}
 	game->board[game->player.y][game->player.x] = 'P';
 	game->board[past_tile_y][past_tile_x] = '0';
-	printf("%d\n", game->moves);
+	ft_putnbr_fd(game->moves, 1);
 }
 
 void	update_game_state(t_game *game, int x, int y)

@@ -16,7 +16,6 @@ RESOURCES:
 	**** Add sprites to the board
 	***** move player sprite
 
-
 	! I am iterating through the board using a string... and probrably should use a 2D array
 	but I am not being able to convert it without segmentation fault...
 		draw_board and read map needs to be re-writen for this...
@@ -26,11 +25,12 @@ RESOURCES:
 	! Player coordinates are inverted and that causes problems when changing tiles during movements...
 		The problem was that I was sending the coordinates inverted in the convert_to_player()
 
-	*** Add map error checking
+	***	Smooth window (changing to another window, minimizing, etc);
+	*** Add map error checking (Done)
 	*** Add different sprites for different moves
 	*** Add enemy
 	*** Add screen moves count
-	***
+	*** 
 
 */
 #include "so_long.h"

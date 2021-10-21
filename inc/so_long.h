@@ -1,7 +1,7 @@
-#ifndef SO_LONG_H
-#define SO_LONG_H 
+#ifndef	SO_LONG_H
+#define	SO_LONG_H 
 
-#include <stdio.h>
+//#include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include "../libs/minilibx-linux/mlx.h"
@@ -87,6 +87,5 @@ void	right(t_game *game);
 // Utils
 void	game_exit(t_game *game);
 void	printf_board(t_game *game);
-
 
 #endif

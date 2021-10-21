@@ -31,11 +31,7 @@ void	count_board_units(t_game *game, char *board)
 	size_t	line_size;
 
 	line_size = 0;
-	if (!(fd = open(board, O_RDONLY)))
-	{
-		ft_putstr_fd("Error\nBoard can't be read", 1);
-		exit(EXIT_FAILURE);
-	}
+	fd = open(board, O_RDONLY);
 	while (get_next_line(fd, &line))
 	{
 		if (!line_size)
