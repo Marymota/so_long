@@ -26,7 +26,9 @@ RESOURCES:
 		The problem was that I was sending the coordinates inverted in the convert_to_player()
 
 	***	Smooth window (changing to another window, minimizing, etc);
+	*** Close the window and quit the program when clicking in the red cross
 	*** Add map error checking (Done)
+	/******BONUS****
 	*** Add different sprites for different moves
 	*** Add enemy
 	*** Add screen moves count
