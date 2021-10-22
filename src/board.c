@@ -61,8 +61,11 @@ void	init_img(t_game *game)
 	game->relative_path_wall = "./assets/path.xpm";
 	game->wall = mlx_xpm_file_to_image(game->mlx, game->relative_path_wall, \
 &game->img_width, &game->img_height);
-	game->relative_path_character = "./assets/chicken/xpm/char1_right.xpm";
-	game->character = mlx_xpm_file_to_image(game->mlx, game->relative_path_character, \
+	game->relative_path_character_right = "./assets/chicken/xpm/char1_right.xpm";
+	game->character_right = mlx_xpm_file_to_image(game->mlx, game->relative_path_character_right, \
+&game->img_width, &game->img_height);
+	game->relative_path_character_left = "./assets/chicken/xpm/char1_left.xpm";
+	game->character_left = mlx_xpm_file_to_image(game->mlx, game->relative_path_character_left, \
 &game->img_width, &game->img_height);
 	game->relative_path_collectible = "./assets/seeds/seed.xpm";
 	game->collect = mlx_xpm_file_to_image(game->mlx, game->relative_path_collectible, \
@@ -88,7 +91,7 @@ void	draw_board(t_game *game)
 x * 100, y * 100);
 			if (game->board[y][x] == 'P')
 			{
-				mlx_put_image_to_window(game->mlx, game->mlx_win, game->character, \
+				mlx_put_image_to_window(game->mlx, game->mlx_win, game->character_right, \
 x * 100, y * 100);
 				game->player.x = x;
 				game->player.y = y;

@@ -26,6 +26,7 @@ void	right(t_game *game)
 	int	x;
 	int	y;
 
+	game->player.direct = 0;
 	x = game->player.x;
 	y = game->player.y;
 	if ((game->board[y][x + 1]) != '1' && ((game->board[y][x + 1]) != 'E'))
@@ -60,6 +61,7 @@ void	left(t_game *game)
 
 	x = game->player.x;
 	y = game->player.y;
+	game->player.direct = 1;
 	if ((game->board[y][x - 1]) != '1' && ((game->board[y][x - 1]) != 'E'))
 	{
 		--game->player.x;

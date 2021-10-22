@@ -14,6 +14,7 @@ typedef struct	s_player
 {
 	int	x;
 	int	y;
+	int direct;
 }				t_player;
 
 typedef struct	s_game 
@@ -36,13 +37,15 @@ typedef struct	s_game
 	int		end;
 
 	void	*wall;
-	void	*character;
+	void	*character_right;
+	void	*character_left;
 	void	*path;
 	void	*exit;
 
 	char 	*relative_path_path;
 	char 	*relative_path_wall;
-	char 	*relative_path_character;
+	char 	*relative_path_character_right;
+	char 	*relative_path_character_left;
 	char 	*relative_path_collectible;
 	char 	*relative_path_exit;
 
@@ -50,7 +53,6 @@ typedef struct	s_game
 	int		img_height;
 
 	char	*addr;
-	char 	*relative_path;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;

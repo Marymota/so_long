@@ -78,6 +78,7 @@ void	init_board(t_game *game)
 		free(game->mlx_win);
 		exit(EXIT_FAILURE);
 	}
+	game->player.direct = 0;
 	game->collectibles = 0;
 	game->moves = 0;
 	init_img(game);

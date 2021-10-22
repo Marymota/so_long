@@ -28,7 +28,7 @@ RESOURCES:
 	***	Smooth window (changing to another window, minimizing, etc);
 	*** Close the window and quit the program when clicking in the red cross
 	*** Add map error checking (Done)
-	/******BONUS****
+	******BONUS****
 	*** Add different sprites for different moves
 	*** Add enemy
 	*** Add screen moves count
