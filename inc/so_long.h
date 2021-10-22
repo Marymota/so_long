@@ -1,7 +1,7 @@
 #ifndef	SO_LONG_H
 #define	SO_LONG_H 
 
-//#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include "../libs/minilibx-linux/mlx.h"
@@ -77,6 +77,7 @@ void	init_board(t_game *game);
 // Update
 void	convert_to_player(int new_tile_x, int new_tile_y, t_game *game);
 void	convert_to_path(int past_tile_x, int past_tile_y, t_game *game);
+void	convert_to_exit(int new_tile_x, int new_tile_y, t_game *game);
 void	update_map(int past_tile_y, int past_tile_x, t_game *game);
 void	update_game_state(t_game *game, int x, int y);
 // Actions

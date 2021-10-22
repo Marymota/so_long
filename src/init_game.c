@@ -17,6 +17,7 @@ void	check_board_form(t_game *game, char *line, size_t len)
 {
 	++game->board_height;
 	game->board_width = ft_strlen(line);
+	printf("%i\n", (int)ft_strlen(line));
 	if (len != ft_strlen(line))
 	{
 		ft_putstr_fd("Error\nMap is not rectangular", 2);
@@ -39,7 +40,10 @@ void	count_board_units(t_game *game, char *board)
 		if (line && *line)
 			game->board_str = ft_strjoin(game->board_str, line);
 		else
+		{
 			ft_putstr_fd("Error\nBoard can't be read", 1);
+			exit(EXIT_FAILURE);
+		}
 		check_board_form(game, line, line_size);
 	}
 	check_board_form(game, line, line_size);

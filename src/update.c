@@ -21,6 +21,12 @@ x * 100, y * 100);
 	}
 }
 
+void	convert_to_exit(int past_tile_x, int past_tile_y, t_game *game)
+{
+	mlx_put_image_to_window(game->mlx, game->mlx_win, game->exit, \
+past_tile_x * 100, past_tile_y * 100);
+}
+
 void	convert_to_player(int new_tile_x, int new_tile_y, t_game *game)
 {
 	if (game->player.direct)
@@ -50,6 +56,7 @@ void	update_map(int past_tile_y, int past_tile_x, t_game *game)
 	game->board[past_tile_y][past_tile_x] = '0';
 	ft_putnbr_fd(game->moves, 1);
 	ft_putchar_fd('\n', 1);
+
 	if (game->moves == 2)
 		game->relative_path_collectible = "./assets/seeds/seed1.xpm";
 	else if (game->moves == 2)
