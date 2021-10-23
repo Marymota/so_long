@@ -2,7 +2,7 @@
 * Mandatory Part
 
 ** Executable name
-[ ] Compiles with 'make' (no-re-link)
+[X] Compiles with 'make' (no-re-link)
 [X] Exe. name 'so_long'
 
 ------------------------------------------------
@@ -21,39 +21,38 @@ ________________________________________________|
 ------------------------------------------------
 
     ** Technical elements of the display
-[ ] Level is a valid representation of the map used
-[ ] Window opens when the program is launched
-[ ] It stays open during the whole execution
+[X] Level is a valid representation of the map used
+[X] Window opens when the program is launched
+[X] It stays open during the whole execution
 
     ** User basic events
-[ ] Red cross at the top left shall close the Window and exit the program "cleanly"
-[ ] ESC key shall close the Window and exit the program "cleanly"
-[ ] WASD shall move the player character
+[X] Red cross at the top left shall close the Window and exit the program "cleanly"
+[X] ESC key shall close the Window and exit the program "cleanly"
+[X] WASD shall move the player character
 
     ** Movements
-[ ] Player spawns in accordance with the map
-[ ] Arrows keys move the player character
-[ ] Is the game "playable"?
+[X] Player spawns in accordance with the map
+[X] Arrows keys move the player character
+[X] Is the game "playable"?
 
     ** Walls & Sprites
-[ ] The walls are well placed and the character cannot go through them
-[ ] The collectibles are well placed and the character can pick them
-[ ] The exit is well placed and the character can finish the game by walking
+[X] The walls are well placed and the character cannot go through them
+[X] The collectibles are well placed and the character can pick them
+[X] The exit is well placed and the character can finish the game by walking
     on it but only after picking every collectibles
 [ ] The player is well placed and can move in every direction except into the walls 
 
     ** Counter
-[ ] There is a small counter displayed on the shell that counts how many movements
+[X] There is a small counter displayed on the shell that counts how many movements
     the player did 
 
     ** Image usage
-[ ] mlx_put_image_to_window not mlx put pixel
+[X] mlx_put_image_to_window not mlx put pixel
 
 *** BONUS
 [ ] enemies patrols that make the player lose on contact
-[ ] some sprite animations
+[X] some sprite animations
 [ ] explain
 
 *** GUI
-
 [ ] the move counter is on the screen

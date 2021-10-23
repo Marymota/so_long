@@ -9,7 +9,7 @@ game->board_height * 100, "soLong");
 	{
 		ft_putstr_fd("Error\nGame can't be initiated", STDERR_FILENO);
 		free(game->mlx_win);
-		exit(EXIT_FAILURE);
+		game_exit(game);
 	}
 }
 
@@ -17,11 +17,10 @@ void	check_board_form(t_game *game, char *line, size_t len)
 {
 	++game->board_height;
 	game->board_width = ft_strlen(line);
-	printf("%i\n", (int)ft_strlen(line));
 	if (len != ft_strlen(line))
 	{
 		ft_putstr_fd("Error\nMap is not rectangular", 2);
-		exit(EXIT_FAILURE);
+		game_exit(game);
 	}
 }
 
@@ -42,7 +41,7 @@ void	count_board_units(t_game *game, char *board)
 		else
 		{
 			ft_putstr_fd("Error\nBoard can't be read", 1);
-			exit(EXIT_FAILURE);
+			game_exit(game);
 		}
 		check_board_form(game, line, line_size);
 	}
@@ -79,8 +78,7 @@ void	init_board(t_game *game)
 	if (!board_close(game) || !board_elements(game))
 	{
 		ft_putstr_fd("Error\nGameboard is invalid", STDERR_FILENO);
-		free(game->mlx_win);
-		exit(EXIT_FAILURE);
+		game_exit(game);
 	}
 	game->player.direct = 0;
 	game->collectibles = 0;

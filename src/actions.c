@@ -1,8 +1,3 @@
-//if (key_code == 1) // keysym 115 mac 1
-//if (key_code == 2) // keysym 100 mac 2
-//if (key_code == 13) // keysym 119 mac 13
-//if (key_code == 0) // keysym 97 mac 0
-
 #include "so_long.h"
 
 void	down(t_game *game)
@@ -73,18 +68,18 @@ void	left(t_game *game)
 
 int	handle_keypress(int key_code, t_game *game)
 {
-	if (key_code == 53)
+	if (key_code == MLX_KEY_ESC)
 	{
 		mlx_destroy_window(game->mlx, game->mlx_win);
 		exit(EXIT_SUCCESS);
 	}
-	if (key_code == 1)
+	if (key_code == MLX_KEY_S || key_code == MLX_KEY_DOWN)
 		down(game);
-	if (key_code == 2)
+	if (key_code == MLX_KEY_D || key_code == MLX_KEY_RiGHT)
 		right(game);
-	if (key_code == 13)
+	if (key_code == MLX_KEY_W || key_code == MLX_KEY_UP)
 		up(game);
-	if (key_code == 0)
+	if (key_code == MLX_KEY_A || key_code == MLX_KEY_LEFT)
 		left(game);
 	return (0);
 }

@@ -57,6 +57,6 @@ int	main(int argc, char *argv[])
 	mlx_hook(game.mlx_win, 2, (1L << 0), &handle_keypress, &game);
 	mlx_loop(game.mlx);
 	mlx_destroy_window(game.mlx, game.mlx_win);
-	free(game.mlx);
+	game_exit(game.mlx);
 	return (0);
 }
