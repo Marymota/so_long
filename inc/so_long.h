@@ -1,6 +1,7 @@
 #ifndef	SO_LONG_H
 #define	SO_LONG_H 
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include "../libs/minilibx-linux/mlx.h"
@@ -17,9 +18,17 @@ typedef struct	s_player
 	int direct;
 }				t_player;
 
+typedef struct	s_enemy
+{
+	int	x;
+	int	y;
+	int count;
+}				t_enemy;
+
 typedef struct	s_game 
 {
 	t_player player;
+	t_enemy		enemy;
 
 	void 	*mlx;
 	void 	*mlx_win;
@@ -37,6 +46,7 @@ typedef struct	s_game
 	void	*wall;
 	void	*character_right;
 	void	*character_left;
+	void	*character_enemy;
 	void	*path;
 	void	*exit;
 
@@ -44,6 +54,7 @@ typedef struct	s_game
 	char 	*relative_path_wall;
 	char 	*relative_path_character_right;
 	char 	*relative_path_character_left;
+	char	*relative_path_enemy;
 	char 	*relative_path_collectible;
 	char 	*relative_path_exit;
 

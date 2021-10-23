@@ -1,4 +1,5 @@
 #include "so_long.h"
+
 void update_collectibles(t_game *game)
 {
 	int y;
@@ -57,16 +58,18 @@ void	update_map(int past_tile_y, int past_tile_x, t_game *game)
 	ft_putnbr_fd(game->moves, 1);
 	ft_putchar_fd('\n', 1);
 
-	if (game->moves == 2)
-		game->relative_path_collectible = "./assets/seeds/seed1.xpm";
+	if (game->moves == 1)
+		game->relative_path_collectible = "./assets/collect/seed.xpm";
 	else if (game->moves == 2)
-		game->relative_path_collectible = "./assets/seeds/seed2.xpm";
+		game->relative_path_collectible = "./assets/collect/seed1.xpm";
 	else if (game->moves == 4)
-		game->relative_path_collectible = "./assets/seeds/seed3.xpm";
+		game->relative_path_collectible = "./assets/collect/seed2.xpm";
 	else if (game->moves == 8)
-		game->relative_path_collectible = "./assets/seeds/seed4.xpm";
+		game->relative_path_collectible = "./assets/collect/seed3.xpm";
 	else if (game->moves == 16)
-		game->relative_path_collectible = "./assets/seeds/seed5.xpm";
+		game->relative_path_collectible = "./assets/collect/seed4.xpm";
+	else if (game->moves == 32)
+		game->relative_path_collectible = "./assets/collect/seed5.xpm";
 	update_collectibles(game);
 }
 
