@@ -1,21 +1,5 @@
 #include "so_long.h"
 
-void enemy_animation(t_game *game)
-{
-	if (game->enemy.count > 4)
-		game->enemy.count = 1;
-	if (game->enemy.count == 1)
-		game->relative_path_enemy = "./assets/enemy/enemy.xpm";
-	else if (game->enemy.count == 2)
-		game->relative_path_enemy = "./assets/enemy/enemy1.xpm";
-	else if (game->enemy.count == 3)
-		game->relative_path_enemy = "./assets/enemy/enemy2.xpm";
-	else if (game->enemy.count == 4)
-		game->relative_path_enemy = "./assets/enemy/enemy3.xpm";
-	game->character_enemy = mlx_xpm_file_to_image(game->mlx, game->relative_path_enemy, \
-&game->img_width, &game->img_height);
-}
-
 void	move_enemy(t_game *game, int y, int x)
 {
 	game->board[y][x] = '0';
@@ -34,57 +18,42 @@ void enemy_moves(t_game *game, int key_code)
 
 	x = game->enemy.x;
 	y = game->enemy.y;
-
 	if (key_code)
 	{
 		if (key_code == MLX_KEY_W || key_code == MLX_KEY_UP)
 		{
-
-			
-			if (game->board[y + 1][x] != '1')
+			if (game->board[y + 1][x] != '1' && game->board[y + 1][x] != 'C')
 			{
-				if (game->board[y + 1][x] != 'C')
-				{
-					++game->enemy.y;
-					game->board[y + 1][x] = 'X';
-					move_enemy(game, y, x);
-				}
+				++game->enemy.y;
+				game->board[y + 1][x] = 'X';
+				move_enemy(game, y, x);
 			}
 		}
 		else if (key_code == MLX_KEY_D || key_code == MLX_KEY_RiGHT)
 		{
-			if (game->board[y][x - 1] != '1')
+			if (game->board[y][x - 1] != '1' && game->board[y][x - 1] != 'C')
 			{
-				if (game->board[y][x - 1] != 'C')
-				{
-					--game->enemy.x;
-					game->board[y][x - 1] = 'X';
-					move_enemy(game, y, x);
-				}
+				--game->enemy.x;
+				game->board[y][x - 1] = 'X';
+				move_enemy(game, y, x);
 			}
 		}
 		else if (key_code == MLX_KEY_S || key_code == MLX_KEY_DOWN)
 		{
-			if (game->board[y - 1][x] != '1')
+			if (game->board[y - 1][x] != '1' && game->board[y - 1][x] != 'C' )
 			{
-				if (game->board[y -1][x] != 'C')
-				{
-					--game->enemy.y;
-					game->board[y - 1][x] = 'X';
-					move_enemy(game, y, x);
-				}			
+				--game->enemy.y;
+				game->board[y - 1][x] = 'X';
+				move_enemy(game, y, x);
 			}
 		}
 		else if (key_code == MLX_KEY_A || key_code == MLX_KEY_LEFT)
 		{
-			if (game->board[y][x + 1] != '1')
+			if (game->board[y][x + 1] != '1' && game->board[y][x + 1] != 'C')
 			{
-				if (game->board[y][x + 1] != 'C')
-				{
-					++game->enemy.x;
-					game->board[y][x + 1] = 'X';
-					move_enemy(game, y, x);
-				}			
+				++game->enemy.x;
+				game->board[y][x + 1] = 'X';
+				move_enemy(game, y, x);		
 			}
 		}
 	}
@@ -103,7 +72,7 @@ void	down(t_game *game)
 		++game->player.y;
 		update_game_state(game, x, y);
 	}
-	if (game->board[y + 1][x] == 'E' || game->board[y + 1][x] == 'X')
+	if (game->board[y + 1][x] == 'E')
 		game_exit(game);
 }
 
@@ -120,7 +89,7 @@ void	right(t_game *game)
 		++game->player.x;
 		update_game_state(game, x, y);
 	}
-	if (game->board[y][x + 1] == 'E' || game->board[y][x + 1] == 'X')
+	if (game->board[y][x + 1] == 'E')
 		game_exit(game);
 }
 
@@ -136,7 +105,7 @@ void	up(t_game *game)
 		--game->player.y;
 		update_game_state(game, x, y);
 	}
-	if (game->board[y - 1][x] == 'E' || game->board[y - 1][x] == 'X')
+	if (game->board[y - 1][x] == 'E')
 		game_exit(game);
 }
 
@@ -153,7 +122,7 @@ void	left(t_game *game)
 		--game->player.x;
 		update_game_state(game, x, y);
 	}
-	if (game->board[y][x - 1] == 'E' || game->board[y][x - 1] == 'X')
+	if (game->board[y][x - 1] == 'E')
 		game_exit(game);
 }
 

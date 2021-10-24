@@ -57,25 +57,20 @@ void	update_map(int past_tile_y, int past_tile_x, t_game *game)
 	game->board[past_tile_y][past_tile_x] = '0';
 	ft_putnbr_fd(game->moves, 1);
 	ft_putchar_fd('\n', 1);
-
-	if (game->moves == 1)
-		game->relative_path_collectible = "./assets/collect/seed.xpm";
-	else if (game->moves == 2)
-		game->relative_path_collectible = "./assets/collect/seed1.xpm";
-	else if (game->moves == 4)
-		game->relative_path_collectible = "./assets/collect/seed2.xpm";
-	else if (game->moves == 8)
-		game->relative_path_collectible = "./assets/collect/seed3.xpm";
-	else if (game->moves == 16)
-		game->relative_path_collectible = "./assets/collect/seed4.xpm";
-	else if (game->moves == 32)
-		game->relative_path_collectible = "./assets/collect/seed5.xpm";
+	collectibles_animation(game);
 	update_collectibles(game);
 }
 
 void	update_game_state(t_game *game, int x, int y)
 {
 	game->moves++;
+	printf("p1 x: %i p1 y: %i\n", game->player.x, game->player.y);
+	printf("e1 x: %i e1 y: %i\n", game->enemy.x, game->enemy.y);
+	if (game->player.x == game->enemy.x && game->player.y == game->enemy.y)
+	{
+		game->end = 1;
+		game_exit(game);
+	}
 	convert_to_path(x, y, game);
 	update_map(y, x, game);
 	convert_to_player(game->player.x, game->player.y, game);

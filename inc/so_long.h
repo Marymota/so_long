@@ -90,6 +90,9 @@ void	up(t_game *game);
 void	down(t_game *game);
 void	left(t_game *game);
 void	right(t_game *game);
+// Animations
+void enemy_animation(t_game *game);
+void collectibles_animation(t_game *game);
 
 // Utils
 void	game_exit(t_game *game);
