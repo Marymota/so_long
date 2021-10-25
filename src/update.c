@@ -22,28 +22,6 @@ x * 100, y * 100);
 	}
 }
 
-void	convert_to_exit(int past_tile_x, int past_tile_y, t_game *game)
-{
-	mlx_put_image_to_window(game->mlx, game->mlx_win, game->exit, \
-past_tile_x * 100, past_tile_y * 100);
-}
-
-void	convert_to_player(int new_tile_x, int new_tile_y, t_game *game)
-{
-	if (game->player.direct)
-		mlx_put_image_to_window(game->mlx, game->mlx_win, game->character_left, \
-	new_tile_x * 100, new_tile_y * 100);
-	else
-		mlx_put_image_to_window(game->mlx, game->mlx_win, game->character_right, \
-	new_tile_x * 100, new_tile_y * 100);
-}
-
-void	convert_to_path(int past_tile_x, int past_tile_y, t_game *game)
-{
-	mlx_put_image_to_window(game->mlx, game->mlx_win, game->path, \
-past_tile_x * 100, past_tile_y * 100);
-}
-
 void	update_map(int past_tile_y, int past_tile_x, t_game *game)
 {
 	if (game->board[game->player.y][game->player.x] == 'C')
@@ -61,11 +39,24 @@ void	update_map(int past_tile_y, int past_tile_x, t_game *game)
 	update_collectibles(game);
 }
 
+void	update_enemy(t_game *game, int y, int x)
+{
+	if (game->player.x == game->enemy.x && game->player.y == game->enemy.y)
+	{
+		game->end = 1;
+		game_exit(game);
+	}
+	game->enemy.count++;
+	enemy_animation(game);
+	mlx_put_image_to_window(game->mlx, game->mlx_win, game->character_enemy, \
+game->enemy.x * 100, game->enemy.y * 100);
+	convert_to_path(x, y, game);
+}
+
 void	update_game_state(t_game *game, int x, int y)
 {
 	game->moves++;
-	printf("p1 x: %i p1 y: %i\n", game->player.x, game->player.y);
-	printf("e1 x: %i e1 y: %i\n", game->enemy.x, game->enemy.y);
+	counter_moves(game);
 	if (game->player.x == game->enemy.x && game->player.y == game->enemy.y)
 	{
 		game->end = 1;

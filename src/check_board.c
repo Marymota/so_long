@@ -1,18 +1,5 @@
 #include "so_long.h"
 
-void	init_game(t_game *game)
-{
-	game->mlx = mlx_init();
-	game->mlx_win = mlx_new_window(game->mlx, game->board_width * 100, \
-game->board_height * 100, "soLong");
-	if (!game->mlx || !game->mlx_win)
-	{
-		ft_putstr_fd("Error\nGame can't be initiated", STDERR_FILENO);
-		free(game->mlx_win);
-		game_exit(game);
-	}
-}
-
 void	check_board_form(t_game *game, char *line, size_t len)
 {
 	++game->board_height;

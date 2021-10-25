@@ -6,8 +6,8 @@
 #include <fcntl.h>
 #include "../libs/minilibx-linux/mlx.h"
 #include "../libs/minilibx_opengl_20191021/mlx.h"
-#include <X11/X.h>
-#include <X11/keysym.h>
+//#include <X11/X.h>
+//#include <X11/keysym.h>
 #include "../libs/libft/src/libft.h"
 #include "mlx_keys.h"
 
@@ -25,10 +25,17 @@ typedef struct	s_enemy
 	int count;
 }				t_enemy;
 
+typedef struct	s_game_exit
+{
+	int x;
+	int y;
+}			t_game_exit;
+
 typedef struct	s_game 
 {
-	t_player player;
+	t_player	player;
 	t_enemy		enemy;
+	t_game_exit		game_exit;
 
 	void 	*mlx;
 	void 	*mlx_win;
@@ -90,12 +97,17 @@ void	up(t_game *game);
 void	down(t_game *game);
 void	left(t_game *game);
 void	right(t_game *game);
+void	enemy_actions(t_game *game, int key_code);
+void	update_enemy(t_game *game, int y, int x);
+
 // Animations
 void enemy_animation(t_game *game);
 void collectibles_animation(t_game *game);
 
 // Utils
-void	game_exit(t_game *game);
+void	game_exit();
+int		x_close();
 void	printf_board(t_game *game);
+void counter_moves (t_game *game);
 
 #endif
