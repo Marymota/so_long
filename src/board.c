@@ -135,5 +135,5 @@ x * 100, y * 100);
 x * 100, y * 100);
 		}
 	}
-	counter_moves(game);
+	//counter_moves(game);
 }
