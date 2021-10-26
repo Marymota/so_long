@@ -11,7 +11,7 @@ void update_collectibles(t_game *game)
 		x = -1;
 		while (++x < game->board_width)
 		{
-			if (game->board[y][x] == 'C')
+			if (game->board[y][x] == 'C' && (game->enemy.x != x && game->enemy.y != y))
 			{
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->collect, \
 x * 100, y * 100);
@@ -50,7 +50,10 @@ void	update_enemy(t_game *game, int y, int x)
 	enemy_animation(game);
 	mlx_put_image_to_window(game->mlx, game->mlx_win, game->character_enemy, \
 game->enemy.x * 100, game->enemy.y * 100);
-	convert_to_path(x, y, game);
+	if (game->board[y][x] != 'C')
+		convert_to_path(x, y, game);
+	else if (game->board[y][x] == 'C')
+		convert_to_collectible(x, y, game);
 }
 
 void	update_game_state(t_game *game, int x, int y)

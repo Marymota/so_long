@@ -49,6 +49,7 @@ typedef struct	s_game
 	int		collectibles;
 	int		collected;
 	int		end;
+	int		collect_flag;
 
 	void	*wall;
 	void	*character_right;
@@ -86,6 +87,7 @@ void	count_board_units(t_game *game, char *board);
 void	read_board(t_game *game, char *board);
 void	init_board(t_game *game);
 // Update
+void	convert_to_collectible(int past_tile_x, int past_tile_y, t_game *game);
 void	convert_to_player(int new_tile_x, int new_tile_y, t_game *game);
 void	convert_to_path(int past_tile_x, int past_tile_y, t_game *game);
 void	convert_to_exit(int new_tile_x, int new_tile_y, t_game *game);
@@ -99,6 +101,9 @@ void	left(t_game *game);
 void	right(t_game *game);
 void	enemy_actions(t_game *game, int key_code);
 void	update_enemy(t_game *game, int y, int x);
+void 	enemy_move(t_game *game, int x, int y);
+int	move_enemy(t_game *game, int x, int y);
+
 
 // Animations
 void enemy_animation(t_game *game);
@@ -108,6 +113,6 @@ void collectibles_animation(t_game *game);
 void	game_exit();
 int		x_close();
 void	printf_board(t_game *game);
-void counter_moves (t_game *game);
+void	counter_moves (t_game *game);
 
 #endif

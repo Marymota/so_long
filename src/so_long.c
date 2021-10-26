@@ -70,6 +70,7 @@ void init_vars(t_game *game)
 	game->img_width = 0 ;
 	game->img_height = 0 ;
 	game->moves = 0;
+	game->collect_flag = 0;
 }
 
 int	handle_no_event(void *game)
