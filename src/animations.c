@@ -31,3 +31,36 @@ void collectibles_animation(t_game *game)
 	else if (game->moves == 32)
 		game->relative_path_collectible = "./assets/collect/seed5.xpm";
 }
+
+void player_animation(t_game *game)
+{
+	if (game->player.count > 4)
+		game->player.count = 1;
+	if (game->player.direct == 0)
+	{
+		if (game->player.count == 1)
+			game->relative_path_character_right = "./assets/player/right/player.xpm";
+		else if (game->player.count == 2)
+			game->relative_path_character_right = "./assets/player/right/player1.xpm";
+		else if (game->player.count == 3)
+			game->relative_path_character_right = "./assets/player/right/player2.xpm";
+		else if (game->player.count == 4)
+			game->relative_path_character_right = "./assets/player/right/player3.xpm";
+		game->character_right = mlx_xpm_file_to_image(game->mlx, game->relative_path_character_right, \
+		&game->img_width, &game->img_height);
+	}
+	else
+	{
+		if (game->player.count == 1)
+			game->relative_path_character_left = "./assets/player/left/player.xpm";
+		else if (game->player.count == 2)
+			game->relative_path_character_left = "./assets/player/left/player1.xpm";
+		else if (game->player.count == 3)
+			game->relative_path_character_left = "./assets/player/left/player2.xpm";
+		else if (game->player.count == 4)
+			game->relative_path_character_left = "./assets/player/left/player3.xpm";
+		game->character_left = mlx_xpm_file_to_image(game->mlx, game->relative_path_character_left, \
+		&game->img_width, &game->img_height);
+	}
+
+}

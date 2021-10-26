@@ -69,9 +69,8 @@ void	left(t_game *game)
 int	handle_keypress(int key_code, t_game *game)
 {
 	if (key_code == MLX_KEY_ESC)
-	{
 		x_close(game);
-	}
+
 	if (key_code == MLX_KEY_S || key_code == MLX_KEY_DOWN)
 		down(game);
 	if (key_code == MLX_KEY_D || key_code == MLX_KEY_RiGHT)
@@ -80,6 +79,8 @@ int	handle_keypress(int key_code, t_game *game)
 		up(game);
 	if (key_code == MLX_KEY_A || key_code == MLX_KEY_LEFT)
 		left(game);
+	game->player.count++;
+	player_animation(game);
 	enemy_actions(game, key_code);
-	return (0);
+	return (key_code);
 }

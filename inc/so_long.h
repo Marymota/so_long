@@ -16,6 +16,7 @@ typedef struct	s_player
 	int	x;
 	int	y;
 	int direct;
+	int count;
 }				t_player;
 
 typedef struct	s_enemy
@@ -95,6 +96,8 @@ void	update_map(int past_tile_y, int past_tile_x, t_game *game);
 void	update_game_state(t_game *game, int x, int y);
 // Actions
 int		handle_keypress(int key_code, t_game *game);
+int		handle_keyrelease(int key_code, t_game *game);
+
 void	up(t_game *game);
 void	down(t_game *game);
 void	left(t_game *game);
@@ -102,12 +105,13 @@ void	right(t_game *game);
 void	enemy_actions(t_game *game, int key_code);
 void	update_enemy(t_game *game, int y, int x);
 void 	enemy_move(t_game *game, int x, int y);
-int	move_enemy(t_game *game, int x, int y);
+int		move_enemy(t_game *game, int x, int y);
 
 
 // Animations
 void enemy_animation(t_game *game);
 void collectibles_animation(t_game *game);
+void player_animation(t_game *game);
 
 // Utils
 void	game_exit();

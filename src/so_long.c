@@ -98,12 +98,10 @@ int	main(int argc, char *argv[])
 
 	if (argc != 2)
 		return (0);
-	//ft_memset(&game, 0, sizeof(t_game));
 	init_vars(&game);
 	read_board(&game, argv[1]);
 	init_game(&game);
 	init_board(&game);
-	mlx_loop_hook(game.mlx, &handle_no_event, &game);
 	mlx_hook(game.mlx_win, 17, (1L << 2), &x_close, &game);
 	mlx_hook(game.mlx_win, 2, (1L << 0), &handle_keypress, &game);
 	mlx_loop(game.mlx);
