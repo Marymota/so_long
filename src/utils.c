@@ -12,19 +12,13 @@ void counter_moves (t_game *game)
 
 void	game_exit()
 {
-	ft_putstr_fd("EXIT\n", 1);
-	//free(game->mlx_win);
-	//free(game->mlx);
-	//free(game);
+	ft_putstr_fd("\nEXIT\n", 1);
 	exit(EXIT_SUCCESS);
 
 }
 
 int	x_close()
 {
-	ft_putstr_fd("EXIT\n", 1);
-	//free(game->mlx_win);
-	//free(game->mlx);
-	//free(game);
+	ft_putstr_fd("\nEXIT\n", 1);
 	exit(EXIT_SUCCESS);
 }

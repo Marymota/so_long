@@ -81,6 +81,7 @@ int	handle_keypress(int key_code, t_game *game)
 		left(game);
 	game->player.count++;
 	player_animation(game);
-	enemy_actions(game, key_code);
+	if (game->enemy.x > 0 && game->enemy.x > 0)
+		enemy_actions(game, key_code);
 	return (key_code);
 }
