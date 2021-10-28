@@ -59,10 +59,10 @@ typedef struct	s_game
 	int			moves;
 }				t_game;
 
-
 //	so_long
 void	init_game(t_game *game);
 void	init_vars(t_game *game);
+void	init_img(t_game *game);
 // Check Board
 void	count_board_units(t_game *game, char *board);
 void	check_board_form(t_game *game, char *line, size_t len);
@@ -74,7 +74,6 @@ void	read_board(t_game *game, char *board);
 void	draw_background(t_game *game);
 void	init_player(t_game *game, int y, int x);
 void	draw_board(t_game *game);
-void	init_img(t_game *game);
 //	Key_Actions
 int		handle_keypress(int key_code, t_game *game);
 void	up(t_game *game);
@@ -103,8 +102,8 @@ void	player_animation(t_game *game);
 void	player_animations_right(t_game *game);
 void	player_animations_left(t_game *game);
 // Utils
-void	game_exit();
-int		x_close();
+void	game_exit(t_game *game, char *message);
+int		x_close(t_game *game);
 void	counter_moves (t_game *game);
 
 #endif

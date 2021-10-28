@@ -50,7 +50,7 @@ void	update_enemy(t_game *game, int y, int x)
 	if (game->player.x == game->enemy.x && game->player.y == game->enemy.y)
 	{
 		game->end = 1;
-		game_exit(game);
+		game_exit(game, "You died");
 	}
 	game->enemy.count++;
 	enemy_animation(game);
@@ -69,7 +69,7 @@ void	update_game_state(t_game *game, int x, int y)
 	if (game->player.x == game->enemy.x && game->player.y == game->enemy.y)
 	{
 		game->end = 1;
-		game_exit(game);
+		game_exit(game, "You died");
 	}
 	if (game->board[y][x] != 'E')
 	{

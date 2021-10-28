@@ -13,7 +13,7 @@ void	down(t_game *game)
 		update_game_state(game, x, y);
 	}
 	if (game->board[y + 1][x] == 'E' && game->collectibles == 0)
-		game_exit(game);
+		game_exit(game, "You Won");
 }
 
 void	right(t_game *game)
@@ -30,7 +30,7 @@ void	right(t_game *game)
 		update_game_state(game, x, y);
 	}
 	if (game->board[y][x + 1] == 'E' && game->collectibles == 0)
-		game_exit(game);
+		game_exit(game, "You Won");
 }
 
 void	up(t_game *game)
@@ -46,7 +46,7 @@ void	up(t_game *game)
 		update_game_state(game, x, y);
 	}
 	if (game->board[y - 1][x] == 'E' && game->collectibles == 0)
-		game_exit(game);
+		game_exit(game, "You Won");
 }
 
 void	left(t_game *game)
@@ -63,7 +63,7 @@ void	left(t_game *game)
 		update_game_state(game, x, y);
 	}
 	if (game->board[y][x - 1] == 'E' && game->collectibles == 0)
-		game_exit(game);
+		game_exit(game, "You Won");
 }
 
 int	handle_keypress(int key_code, t_game *game)

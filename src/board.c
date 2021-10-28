@@ -1,30 +1,5 @@
 #include "so_long.h"
 
-void	init_img(t_game *game)
-{
-	game->relative_path_path = "./assets/path.xpm";
-	game->path = mlx_xpm_file_to_image(game->mlx, game->relative_path_path, \
-&game->img_width, &game->img_height);
-	game->relative_path_wall = "./assets/wall.xpm";
-	game->wall = mlx_xpm_file_to_image(game->mlx, game->relative_path_wall, \
-&game->img_width, &game->img_height);
-	game->relative_path_character_right = "./assets/player/right/player.xpm";
-	game->character_right = mlx_xpm_file_to_image(game->mlx, game->relative_path_character_right, \
-&game->img_width, &game->img_height);
-	game->relative_path_character_left = "./assets/player/left/player.xpm";
-	game->character_left = mlx_xpm_file_to_image(game->mlx, game->relative_path_character_left, \
-&game->img_width, &game->img_height);
-	game->relative_path_collectible = "./assets/collect/seed.xpm";
-	game->collect = mlx_xpm_file_to_image(game->mlx, game->relative_path_collectible, \
-&game->img_width, &game->img_height);
-	game->relative_path_exit = "./assets/exit.xpm";
-	game->exit = mlx_xpm_file_to_image(game->mlx, game->relative_path_exit, \
-&game->img_width, &game->img_height);
-	game->relative_path_enemy = "./assets/enemy/enemy.xpm";
-	game->character_enemy = mlx_xpm_file_to_image(game->mlx, game->relative_path_enemy, \
-&game->img_width, &game->img_height);
-}
-
 void	init_player(t_game *game, int y, int x)
 {
 	mlx_put_image_to_window(game->mlx, game->mlx_win, game->character_right, \
@@ -110,8 +85,8 @@ void	init_board(t_game *game)
 {
 	if (!board_close(game) || !board_elements(game))
 	{
-		ft_putstr_fd("Error\nGameboard is invalid", STDERR_FILENO);
-		game_exit(game);
+		ft_putstr_fd("Error\n", STDERR_FILENO);
+		game_exit(game, "Gameboard is invalid");
 	}
 	game->player.direct = 0;
 	game->collectibles = 0;

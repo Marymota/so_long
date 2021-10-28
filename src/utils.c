@@ -13,11 +13,11 @@ game->board_height + 50, 0x000000, count);
 	free(count);
 }
 
-void	game_exit(t_game *game)
+void	game_exit(t_game *game, char *message)
 {
 	int	i;
 
-	ft_putstr_fd("\nEXIT\n", 1);
+	ft_putstr_fd(message, 1);
 	if (game->mlx_win)
 		free(game->mlx_win);
 	i = -1;
