@@ -1,9 +1,9 @@
 #include "so_long.h"
 
-void update_collectibles(t_game *game)
+void	update_collectibles(t_game *game)
 {
-	int y;
-	int x;
+	int	y;
+	int	x;
 
 	y = -1;
 	while (++y < game->board_height)
@@ -11,12 +11,15 @@ void update_collectibles(t_game *game)
 		x = -1;
 		while (++x < game->board_width)
 		{
-			if (game->board[y][x] == 'C' && (game->enemy.x != x && game->enemy.y != y))
+			if (game->board[y][x] == 'C')
 			{
-				mlx_put_image_to_window(game->mlx, game->mlx_win, game->collect, \
+				if (game->enemy.x != x && game->enemy.y != y)
+				{
+					mlx_put_image_to_window(game->mlx, game->mlx_win, game->collect, \
 x * 100, y * 100);
-				game->collect = mlx_xpm_file_to_image(game->mlx, game->relative_path_collectible, \
-&game->img_width, &game->img_height);
+					game->collect = mlx_xpm_file_to_image(game->mlx, \
+game->relative_path_collectible, &game->img_width, &game->img_height);
+				}
 			}
 		}
 	}

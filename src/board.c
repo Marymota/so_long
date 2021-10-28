@@ -1,58 +1,5 @@
 #include "so_long.h"
 
-int	board_elements(t_game *game)
-{
-	int	x;
-	int	y;
-	int	board[3];
-
-	y = -1;
-	while (++y < game->board_height)
-	{
-		x = -1;
-		while (++x < game->board_width)
-		{
-			if (x < 3 && y == 0)
-				board[x] = 0;
-			if (game->board[y][x] == 'E')
-				board[0] = 1;
-			if (game->board[y][x] == 'P')
-				++board[1];
-			if (game->board[y][x] == 'C')
-				board[2] = 1;
-		}
-	}
-	x = -1;
-	while (++x < 3)
-		if (board[x] != 1)
-			return (0);
-	return (1);
-}
-
-int	board_close(t_game *game)
-{
-	int	x;
-	int	y;
-
-	y = -1;
-	while (++y < game->board_height)
-	{
-		x = -1;
-		while (++x < game->board_width)
-			if ((y == 0 || x == 0) && (game->board[y][x] != '1'))
-				return (0);
-	}
-	y = -1;
-	while (++y < game->board_height)
-		if (game->board[y][game->board_width - 1] != '1')
-			return (0);
-	x = -1;
-	while (++x < game->board_width)
-		if (game->board[game->board_height - 1][x] != '1')
-			return (0);
-	return (1);
-}
-
 void	init_img(t_game *game)
 {
 	game->relative_path_path = "./assets/path.xpm";
@@ -78,6 +25,14 @@ void	init_img(t_game *game)
 &game->img_width, &game->img_height);
 }
 
+void	init_player(t_game *game, int y, int x)
+{
+	mlx_put_image_to_window(game->mlx, game->mlx_win, game->character_right, \
+x * 100, y * 100);
+	game->player.x = x;
+	game->player.y = y;
+}
+
 void	draw_board(t_game *game)
 {
 	int	x;
@@ -89,29 +44,19 @@ void	draw_board(t_game *game)
 		x = -1;
 		while (++x < game->board_width)
 		{
-			if (game->board[y][x] == 'E')
-				mlx_put_image_to_window(game->mlx, game->mlx_win, game->exit, \
-x * 100, y * 100);
-			if (game->board[y][x] == 'P')
-			{
-				mlx_put_image_to_window(game->mlx, game->mlx_win, game->character_right, \
-x * 100, y * 100);
-				game->player.x = x;
-				game->player.y = y;
-			}
 			if (game->board[y][x] == 'C')
 			{
 				game->collectibles++;
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->collect, \
 x * 100, y * 100);
 			}
-			if (game->board[y][x] == 'X')
-			{
-				mlx_put_image_to_window(game->mlx, game->mlx_win, game->character_enemy, \
+			if (game->board[y][x] == 'E')
+				mlx_put_image_to_window(game->mlx, game->mlx_win, game->exit, \
 x * 100, y * 100);
-				game->enemy.x = x;
-				game->enemy.y = y;
-			}
+			if (game->board[y][x] == 'P')
+				init_player(game, y, x);
+			if (game->board[y][x] == 'X')
+				init_enemy(game, y, x);
 		}
 	}
 }
@@ -135,5 +80,43 @@ x * 100, y * 100);
 x * 100, y * 100);
 		}
 	}
-	//counter_moves(game);
+	counter_moves(game);
+}
+
+void	read_board(t_game *game, char *board)
+{
+	int		fd;
+	char	*line;
+	int		ret;
+	int		y;
+
+	y = 0;
+	count_board_units(game, board);
+	ret = 1;
+	fd = open(board, O_RDONLY);
+	game->board = ft_calloc(game->board_height, sizeof(char *));
+	while (ret > 0)
+	{
+		ret = get_next_line(fd, &line);
+		if (ft_strlen(line) > 0)
+			game->board[y++] = line;
+		else
+			free(line);
+	}
+	close(fd);
+}
+
+void	init_board(t_game *game)
+{
+	if (!board_close(game) || !board_elements(game))
+	{
+		ft_putstr_fd("Error\nGameboard is invalid", STDERR_FILENO);
+		game_exit(game);
+	}
+	game->player.direct = 0;
+	game->collectibles = 0;
+	game->moves = 0;
+	init_img(game);
+	draw_background(game);
+	draw_board(game);
 }

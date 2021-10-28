@@ -12,7 +12,7 @@ void	down(t_game *game)
 		++game->player.y;
 		update_game_state(game, x, y);
 	}
-	if (game->board[y + 1][x] == 'E'  && game->collectibles == 0)
+	if (game->board[y + 1][x] == 'E' && game->collectibles == 0)
 		game_exit(game);
 }
 
@@ -29,7 +29,7 @@ void	right(t_game *game)
 		++game->player.x;
 		update_game_state(game, x, y);
 	}
-	if (game->board[y][x + 1] == 'E'  && game->collectibles == 0)
+	if (game->board[y][x + 1] == 'E' && game->collectibles == 0)
 		game_exit(game);
 }
 
@@ -62,7 +62,7 @@ void	left(t_game *game)
 		--game->player.x;
 		update_game_state(game, x, y);
 	}
-	if (game->board[y][x - 1] == 'E'  && game->collectibles == 0)
+	if (game->board[y][x - 1] == 'E' && game->collectibles == 0)
 		game_exit(game);
 }
 
@@ -70,7 +70,6 @@ int	handle_keypress(int key_code, t_game *game)
 {
 	if (key_code == MLX_KEY_ESC)
 		x_close(game);
-
 	if (key_code == MLX_KEY_S || key_code == MLX_KEY_DOWN)
 		down(game);
 	if (key_code == MLX_KEY_D || key_code == MLX_KEY_RiGHT)

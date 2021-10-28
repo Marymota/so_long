@@ -1,6 +1,6 @@
 #include "so_long.h"
 
-void enemy_animation(t_game *game)
+void	enemy_animation(t_game *game)
 {
 	if (game->enemy.count > 4)
 		game->enemy.count = 1;
@@ -16,7 +16,7 @@ void enemy_animation(t_game *game)
 &game->img_width, &game->img_height);
 }
 
-void collectibles_animation(t_game *game)
+void	collectibles_animation(t_game *game)
 {
 	if (game->moves == 1)
 		game->relative_path_collectible = "./assets/collect/seed.xpm";
@@ -32,35 +32,40 @@ void collectibles_animation(t_game *game)
 		game->relative_path_collectible = "./assets/collect/seed5.xpm";
 }
 
-void player_animation(t_game *game)
+void	player_animation(t_game *game)
 {
 	if (game->player.count > 4)
 		game->player.count = 1;
 	if (game->player.direct == 0)
-	{
-		if (game->player.count == 1)
-			game->relative_path_character_right = "./assets/player/right/player.xpm";
-		else if (game->player.count == 2)
-			game->relative_path_character_right = "./assets/player/right/player1.xpm";
-		else if (game->player.count == 3)
-			game->relative_path_character_right = "./assets/player/right/player2.xpm";
-		else if (game->player.count == 4)
-			game->relative_path_character_right = "./assets/player/right/player3.xpm";
-		game->character_right = mlx_xpm_file_to_image(game->mlx, game->relative_path_character_right, \
-		&game->img_width, &game->img_height);
-	}
+		player_animations_right(game);
 	else
-	{
-		if (game->player.count == 1)
-			game->relative_path_character_left = "./assets/player/left/player.xpm";
-		else if (game->player.count == 2)
-			game->relative_path_character_left = "./assets/player/left/player1.xpm";
-		else if (game->player.count == 3)
-			game->relative_path_character_left = "./assets/player/left/player2.xpm";
-		else if (game->player.count == 4)
-			game->relative_path_character_left = "./assets/player/left/player3.xpm";
-		game->character_left = mlx_xpm_file_to_image(game->mlx, game->relative_path_character_left, \
-		&game->img_width, &game->img_height);
-	}
+		player_animations_left(game);
+}
 
+void	player_animations_right(t_game *game)
+{
+	if (game->player.count == 1)
+		game->relative_path_character_right = "./assets/player/right/player.xpm";
+	else if (game->player.count == 2)
+		game->relative_path_character_right = "./assets/player/right/player1.xpm";
+	else if (game->player.count == 3)
+		game->relative_path_character_right = "./assets/player/right/player2.xpm";
+	else if (game->player.count == 4)
+		game->relative_path_character_right = "./assets/player/right/player3.xpm";
+	game->character_right = mlx_xpm_file_to_image(game->mlx, \
+game->relative_path_character_right, &game->img_width, &game->img_height);
+}
+
+void	player_animations_left(t_game *game)
+{
+	if (game->player.count == 1)
+		game->relative_path_character_left = "./assets/player/left/player.xpm";
+	else if (game->player.count == 2)
+		game->relative_path_character_left = "./assets/player/left/player1.xpm";
+	else if (game->player.count == 3)
+		game->relative_path_character_left = "./assets/player/left/player2.xpm";
+	else if (game->player.count == 4)
+		game->relative_path_character_left = "./assets/player/left/player3.xpm";
+	game->character_left = mlx_xpm_file_to_image(game->mlx, \
+game->relative_path_character_left, &game->img_width, &game->img_height);
 }
