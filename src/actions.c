@@ -7,7 +7,7 @@ void	down(t_game *game)
 
 	x = game->player.x;
 	y = game->player.y;
-	if ((game->board[y + 1][x]) != '1' && ((game->board[y + 1][x]) != 'E'))
+	if ((game->board[y + 1][x]) != '1')
 	{
 		++game->player.y;
 		update_game_state(game, x, y);
@@ -24,7 +24,7 @@ void	right(t_game *game)
 	game->player.direct = 0;
 	x = game->player.x;
 	y = game->player.y;
-	if ((game->board[y][x + 1]) != '1' && ((game->board[y][x + 1]) != 'E'))
+	if ((game->board[y][x + 1]) != '1')
 	{
 		++game->player.x;
 		update_game_state(game, x, y);
@@ -40,7 +40,7 @@ void	up(t_game *game)
 
 	x = game->player.x;
 	y = game->player.y;
-	if ((game->board[y - 1][x]) != '1' && ((game->board[y - 1][x]) != 'E'))
+	if ((game->board[y - 1][x]) != '1')
 	{
 		--game->player.y;
 		update_game_state(game, x, y);
@@ -57,7 +57,7 @@ void	left(t_game *game)
 	x = game->player.x;
 	y = game->player.y;
 	game->player.direct = 1;
-	if ((game->board[y][x - 1]) != '1' && ((game->board[y][x - 1]) != 'E'))
+	if ((game->board[y][x - 1]) != '1')
 	{
 		--game->player.x;
 		update_game_state(game, x, y);

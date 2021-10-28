@@ -34,8 +34,11 @@ void	update_map(int past_tile_y, int past_tile_x, t_game *game)
 		if (game->collectibles == 0)
 			game->end = 1;
 	}
-	game->board[game->player.y][game->player.x] = 'P';
-	game->board[past_tile_y][past_tile_x] = '0';
+	if (game->board[game->player.y][game->player.x] != 'E')
+	{
+		game->board[game->player.y][game->player.x] = 'P';
+		game->board[past_tile_y][past_tile_x] = '0';
+	}
 	ft_putnbr_fd(game->moves, 1);
 	ft_putchar_fd('\n', 1);
 	collectibles_animation(game);
@@ -68,7 +71,12 @@ void	update_game_state(t_game *game, int x, int y)
 		game->end = 1;
 		game_exit(game);
 	}
-	convert_to_path(x, y, game);
-	update_map(y, x, game);
+	if (game->board[y][x] != 'E')
+	{
+		convert_to_path(x, y, game);
+		update_map(y, x, game);
+	}
+	else if (game->board[y][x] == 'E')
+		convert_to_exit(x, y, game);
 	convert_to_player(game->player.x, game->player.y, game);
 }
