@@ -35,7 +35,6 @@ typedef struct	s_game
 	char		**board;
 	int			board_width;
 	int			board_height;
-	char		*board_str;		
 	void		*collect;
 	int			collectibles;
 	int			collected;

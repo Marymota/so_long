@@ -31,7 +31,7 @@ FLAG_DEBUG			:=		-g
 FLAGS_COMP			:=		$(FLAG_WARNING) $(FLAG_INC) $(FLAG_MAKEFILE) $(FLAG_DEBUG)
 
 # Flags - memory leak check
-FLAG_MEM_LEAK		:=		fsanitize=address
+FLAG_MEM_LEAK		:=		-fsanitize=address
 
 # Flags - linking
 FLAG_LIBFT			:=		-L$(PATH_LIBFT) -lft

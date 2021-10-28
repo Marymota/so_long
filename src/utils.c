@@ -24,12 +24,8 @@ void	game_exit(t_game *game, char *message)
 	while (++i < game->board_height)
 		if (game->board && game->board[i])
 			free(game->board[i]);
-	if (game->board_str)
-		free(game->board_str);
 	if (game->board)
 		free(game->board);
-	if (game->mlx)
-		free(game->mlx);
 	exit(EXIT_SUCCESS);
 }
 
@@ -44,8 +40,6 @@ int	x_close(t_game *game)
 	while (++i < game->board_height)
 		if (game->board && game->board[i])
 			free(game->board[i]);
-	if (game->board_str)
-		free(game->board_str);
 	if (game->board)
 		free(game->board);
 	if (game->mlx)
