@@ -47,14 +47,9 @@ void	init_vars(t_game *game)
 	game->board = 0;
 	game->board_width = 0;
 	game->board_height = 0;
-	game->collect = 0;
-	game->collectibles = 0;
-	game->collected = 0;
 	game->character_enemy = 0;
 	game->img_width = 0;
 	game->img_height = 0;
-	game->moves = 0;
-	game->collect_flag = 0;
 }
 
 void	init_img(t_game *game)

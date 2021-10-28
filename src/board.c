@@ -58,6 +58,21 @@ x * 100, y * 100);
 	counter_moves(game);
 }
 
+void	init_board(t_game *game)
+{
+	if (!board_close(game) || !board_elements(game))
+	{
+		ft_putstr_fd("Error\n", STDERR_FILENO);
+		game_exit(game, "Gameboard is invalid");
+	}
+	game->player.direct = 0;
+	game->collectibles = 0;
+	game->moves = 0;
+	init_img(game);
+	draw_background(game);
+	draw_board(game);
+}
+
 void	read_board(t_game *game, char *board)
 {
 	int		fd;
@@ -79,19 +94,4 @@ void	read_board(t_game *game, char *board)
 			free(line);
 	}
 	close(fd);
-}
-
-void	init_board(t_game *game)
-{
-	if (!board_close(game) || !board_elements(game))
-	{
-		ft_putstr_fd("Error\n", STDERR_FILENO);
-		game_exit(game, "Gameboard is invalid");
-	}
-	game->player.direct = 0;
-	game->collectibles = 0;
-	game->moves = 0;
-	init_img(game);
-	draw_background(game);
-	draw_board(game);
 }

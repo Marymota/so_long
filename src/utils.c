@@ -18,14 +18,16 @@ void	game_exit(t_game *game, char *message)
 	int	i;
 
 	ft_putstr_fd(message, 1);
-	if (game->mlx_win)
-		free(game->mlx_win);
 	i = -1;
 	while (++i < game->board_height)
 		if (game->board && game->board[i])
 			free(game->board[i]);
 	if (game->board)
 		free(game->board);
+	if (game->mlx_win)
+		free(game->mlx_win);
+	if (game->mlx)
+		free(game->mlx);
 	exit(EXIT_SUCCESS);
 }
 
@@ -33,7 +35,6 @@ int	x_close(t_game *game)
 {
 	int	i;
 
-	ft_putstr_fd("\nEXIT\n", 1);
 	if (game->mlx_win)
 		free(game->mlx_win);
 	i = -1;
@@ -42,7 +43,5 @@ int	x_close(t_game *game)
 			free(game->board[i]);
 	if (game->board)
 		free(game->board);
-	if (game->mlx)
-		free(game->mlx);
 	exit(EXIT_SUCCESS);
 }
