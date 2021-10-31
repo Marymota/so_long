@@ -40,7 +40,7 @@ ________________________________________________|
 [X] The collectibles are well placed and the character can pick them
 [X] The exit is well placed and the character can finish the game by walking
     on it but only after picking every collectibles
-[ ] The player is well placed and can move in every direction except into the walls 
+[X] The player is well placed and can move in every direction except into the walls 
 
     ** Counter
 [X] There is a small counter displayed on the shell that counts how many movements
@@ -50,9 +50,9 @@ ________________________________________________|
 [X] mlx_put_image_to_window not mlx put pixel
 
 *** BONUS
-[ ] enemies patrols that make the player lose on contact
+[X] enemies patrols that make the player lose on contact
 [X] some sprite animations
-[ ] explain
+[X] explain
 
 *** GUI
-[ ] the move counter is on the screen
+[X] the move counter is on the screen
