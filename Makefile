@@ -37,12 +37,12 @@ FLAG_MEM_LEAK		:=		-fsanitize=address
 FLAG_LIBFT			:=		-L$(PATH_LIBFT) -lft
 FLAG_LIBMLX_MAC		:=		-L$(PATH_LIBMLX_MAC) -lmlx -framework OpenGL -framework AppKit -lz
 FLAG_LIBMLX_LINUX	:=		-L$(PATH_LIBMLX_LINUX) -lmlx -lX11 -lbsd -lXext
-#ifeq ($(OS),)
-#	FLAGS_LINKING	:=		-lm $(FLAG_LIBFT) $(FLAG_LIBMLX_MAC)
-#else			
-FLAGS_LINKING	:=		-lm $(FLAG_LIBFT) $(FLAG_LIBMLX_LINUX)
-#	OS_DEFINE		:=		-D OS=$(OS)
-#endif
+ifeq ($(OS),)
+	FLAGS_LINKING	:=		-lm $(FLAG_LIBFT) $(FLAG_LIBMLX_MAC)
+else			
+	FLAGS_LINKING	:=		-lm $(FLAG_LIBFT) $(FLAG_LIBMLX_LINUX)
+	OS_DEFINE		:=		-D OS=$(OS)
+endif
 
 # Other Commands
 RM				:=			rm -rf
@@ -61,11 +61,11 @@ all:						init $(NAME)
 init:						
 							@ echo "$(_INFO) Initialize $(NAME)"
 							@ make -C $(PATH_LIBFT)
-#ifeq ($(OS),)
-#	@ make -C $(PATH_LIBMLX_MAC)
-#else	
+ifeq ($(OS),)
+	@ make -C $(PATH_LIBMLX_MAC)
+else	
 	@ make -C $(PATH_LIBMLX_LINUX)
-#endif
+endif
 
 $(NAME):					$(OBJS)
 							$(CC) $(FLAGS_COMP) -o $@ $(OBJS) $(FLAGS_LINKING)
@@ -80,7 +80,6 @@ clean:
 							@ $(RM) $(PATH_BUILD)
 							@ make -C $(PATH_LIBFT) clean
 							@ make -C $(PATH_LIBMLX_MAC) clean
-							@ make -C $(PATH_LIBMLX_LINUX) clean
 							@ echo "$(_INFO) Deleted files and directory"
 
 fclean:						clean

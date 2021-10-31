@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_keys.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marmota <marmota@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mmota <mmota@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/16 04:46:51 by mgueifao          #+#    #+#             */
-/*   Updated: 2021/10/23 16:30:42 by marmota          ###   ########.fr       */
+/*   Created: 2021/10/29 12:29:34 by mmota             #+#    #+#             */
+/*   Updated: 2021/10/29 13:16:00 by mmota            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 #  define MLX_KEY_ROPT_ALT 65514
 #  define MLX_KEY_LEFT 65361
 #  define MLX_KEY_UP 65362
-#  define MLX_KEY_RiGHT 65363
+#  define MLX_KEY_RIGHT 65363
 #  define MLX_KEY_DOWN 65364
 #  define MLX_KEY_1 49
 #  define MLX_KEY_2 50
@@ -138,10 +138,10 @@
 #   define MLX_KEY_RSHIFT 258
 #   define MLX_KEY_RCTRL 269
 #   define MLX_KEY_ROPT_ALT 262
-#  	define MLX_KEY_LEFT 123
-#  	define MLX_KEY_UP 126
-#  	define MLX_KEY_RiGHT 124
-#  	define MLX_KEY_DOWN 125
+#   define MLX_KEY_LEFT 123
+#   define MLX_KEY_UP 126
+#   define MLX_KEY_RIGHT 124
+#   define MLX_KEY_DOWN 125
 #   define MLX_KEY_1 18
 #   define MLX_KEY_2 19
 #   define MLX_KEY_3 20

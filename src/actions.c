@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   actions.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marmota <marmota@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/29 12:28:22 by mmota             #+#    #+#             */
+/*   Updated: 2021/10/31 14:35:37 by marmota          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 void	down(t_game *game)
@@ -72,7 +84,7 @@ int	handle_keypress(int key_code, t_game *game)
 		x_close(game);
 	if (key_code == MLX_KEY_S || key_code == MLX_KEY_DOWN)
 		down(game);
-	if (key_code == MLX_KEY_D || key_code == MLX_KEY_RiGHT)
+	if (key_code == MLX_KEY_D || key_code == MLX_KEY_RIGHT)
 		right(game);
 	if (key_code == MLX_KEY_W || key_code == MLX_KEY_UP)
 		up(game);
@@ -80,7 +92,7 @@ int	handle_keypress(int key_code, t_game *game)
 		left(game);
 	game->player.count++;
 	player_animation(game);
-	if (game->enemy.x > 0 && game->enemy.y > 0)
+	if (game->character_enemy != 0)
 		enemy_actions(game, key_code);
 	return (key_code);
 }

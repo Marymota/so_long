@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   enemy.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmota <mmota@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/29 12:28:57 by mmota             #+#    #+#             */
+/*   Updated: 2021/10/29 16:06:16 by mmota            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 int	move_enemy(t_game *game, int x, int y)
@@ -24,7 +36,7 @@ void	enemy_actions(t_game *game, int key_code)
 	update = 0;
 	if (key_code == MLX_KEY_W || key_code == MLX_KEY_UP)
 		update = move_enemy(game, x, y + 1);
-	else if (key_code == MLX_KEY_D || key_code == MLX_KEY_RiGHT)
+	else if (key_code == MLX_KEY_D || key_code == MLX_KEY_RIGHT)
 		update = move_enemy(game, x - 1, y);
 	else if (key_code == MLX_KEY_S || key_code == MLX_KEY_DOWN)
 		update = move_enemy(game, x, y - 1);

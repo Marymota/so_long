@@ -1,30 +1,41 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmota <mmota@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/29 12:29:40 by mmota             #+#    #+#             */
+/*   Updated: 2021/10/29 13:20:33 by mmota            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SO_LONG_H
 # define SO_LONG_H 
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include "../libs/minilibx-linux/mlx.h"
-#include "../libs/minilibx_opengl_20191021/mlx.h"
-#include "../libs/libft/src/libft.h"
-#include "mlx_keys.h"
+# include <stdlib.h>
+# include <fcntl.h>
+# include "../libs/minilibx-linux/mlx.h"
+# include "../libs/minilibx_opengl_20191021/mlx.h"
+# include "../libs/libft/src/libft.h"
+# include "mlx_keys.h"
 
-typedef struct	s_player
+typedef struct s_player
 {
 	int	x;
 	int	y;
-	int direct;
-	int count;
+	int	direct;
+	int	count;
 }				t_player;
 
-typedef struct	s_enemy
+typedef struct s_enemy
 {
 	int	x;
 	int	y;
-	int count;
+	int	count;
 }				t_enemy;
 
-typedef struct	s_game 
+typedef struct s_game
 {
 	t_player	player;
 	t_enemy		enemy;
@@ -44,14 +55,14 @@ typedef struct	s_game
 	void		*character_enemy;
 	void		*path;
 	void		*exit;		
-	char 		*relative_path_path;
-	char 		*relative_path_wall;
-	char 		*relative_path_character_right;
-	char 		*relative_path_character_left;
+	char		*relative_path_path;
+	char		*relative_path_wall;
+	char		*relative_path_character_right;
+	char		*relative_path_character_left;
 	char		*relative_path_enemy;
-	char 		*relative_path_collectible;
-	char 		*relative_path_exit;		
-	int 		img_width;
+	char		*relative_path_collectible;
+	char		*relative_path_exit;		
+	int			img_width;
 	int			img_height;		
 	int			moves;
 }				t_game;
@@ -101,6 +112,6 @@ void	player_animations_left(t_game *game);
 // Utils
 void	game_exit(t_game *game, char *message);
 int		x_close(t_game *game);
-void	counter_moves (t_game *game);
+void	counter_moves(t_game *game);
 
 #endif

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_board.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmota <mmota@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/29 12:28:47 by mmota             #+#    #+#             */
+/*   Updated: 2021/10/29 13:03:39 by mmota            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 void	check_board_form(t_game *game, char *line, size_t len)
@@ -6,9 +18,8 @@ void	check_board_form(t_game *game, char *line, size_t len)
 	game->board_width = ft_strlen(line);
 	if (len != ft_strlen(line))
 	{
-		free(line);
-		ft_putstr_fd("Error\n", STDERR_FILENO);
-		game_exit(game, "Map is not rectangular");
+		ft_putstr_fd("Error\nMap is not rectangular", STDERR_FILENO);
+		exit(EXIT_FAILURE);
 	}
 }
 

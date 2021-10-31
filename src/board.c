@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   board.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmota <mmota@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/29 12:28:40 by mmota             #+#    #+#             */
+/*   Updated: 2021/10/29 17:24:42 by mmota            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 void	init_player(t_game *game, int y, int x)
@@ -22,16 +34,19 @@ void	draw_board(t_game *game)
 			if (game->board[y][x] == 'C')
 			{
 				game->collectibles++;
-				mlx_put_image_to_window(game->mlx, game->mlx_win, game->collect, \
-x * 100, y * 100);
+				mlx_put_image_to_window(game->mlx, game->mlx_win, \
+				game->collect, x * 100, y * 100);
 			}
 			if (game->board[y][x] == 'E')
-				mlx_put_image_to_window(game->mlx, game->mlx_win, game->exit, \
-x * 100, y * 100);
+				mlx_put_image_to_window(game->mlx, game->mlx_win, \
+				game->exit, x * 100, y * 100);
 			if (game->board[y][x] == 'P')
 				init_player(game, y, x);
 			if (game->board[y][x] == 'X')
+			{
 				init_enemy(game, y, x);
+				game->character_enemy++;
+			}
 		}
 	}
 }
