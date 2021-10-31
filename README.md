@@ -17,5 +17,9 @@ make
 [Getting started with the minilibx - Aurelien Brabant](https://aurelienbrabant.fr/blog/getting-started-with-the-minilibx)   
 [MiniLibX 2D - jeunghoog](https://velog.io/@jeunghoon/MiniLibX-2D%EB%A7%B5-%EC%B6%9C%EB%A0%A5%ED%95%98%EA%B8%B0 "MiniLibX 2D맵 출력하기")   
 
+### assets
+[2D Pixel Art Fox Sprites by Elthen's Pixel Art Shop](https://elthen.itch.io/2d-pixel-art-fox-sprites)   
+[Cozy Farm - Asset Pack (free version)](https://shubibubi.itch.io/cozy-farm)   
 
-![image](https://github.com/Marymota/so_long/blob/main/prints/working%20for%20the%20most%20part.png)
+
+<img width="1004" alt="working for the most part" src="https://user-images.githubusercontent.com/20130249/139592693-8c6a145b-8aeb-4d55-8f74-5fc9457f4e88.png">
